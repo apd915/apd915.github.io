@@ -37,111 +37,22 @@
   <section style="border-top:0; padding-top:0">
 
     <article class="project" id="robotic-fleet">
-      <img class="thumb contain" src="images/fleet/chassis.png" alt="Render of the 3D-printed car chassis with mounting posts and wheel cutouts">
+      <a class="thumb-link" href="projects/robotic-fleet.html">
+        <img class="thumb" src="images/fleet/assembled.jpg" style="object-position: center 62%" alt="Assembled autonomous car with custom PCB, Arduino Nano and ultrasonic sensors in a 3D-printed chassis">
+      </a>
       <div>
-        <h3>Autonomous Robotic Fleet</h3>
+        <h3><a href="projects/robotic-fleet.html">Autonomous Robotic Fleet</a></h3>
         <p class="lab">Independent project · In progress</p>
         <p class="meta">Arduino Nano · MAX78000 · KiCad · Fusion 360 · PyBullet</p>
-        <p>A fleet of small autonomous cars built from scratch (electronics, PCB, chassis, and firmware), working
-           toward leader–follower behavior learned with multi-agent reinforcement learning.</p>
+        <p>A small autonomous car built from scratch (breadboard prototype, custom PCB, 3D-printed chassis, and
+           firmware), the first unit of a fleet working toward leader–follower behavior learned with multi-agent RL.</p>
         <ul>
-          <li><strong>Sensing and control:</strong> an Arduino Nano drives two continuous-rotation servo wheels, reacts to
-              obstacles using three HC-SR04 ultrasonic sensors (front, left, right), and tracks heading by integrating
-              the bias-corrected gyro of an MPU-6050 IMU over I²C</li>
-          <li><strong>Vision board:</strong> a MAX78000 (Maxim's microcontroller with a CNN accelerator and camera interface)
-              sends commands to the Arduino over UART, the groundwork for camera-based control on the car</li>
-          <li><strong>Custom PCB:</strong> a two-layer KiCad board that carries the Nano, the IMU, three sensor headers,
-              two servo headers, and a ground pour, prototyped first on a breadboard</li>
-          <li><strong>Mechanical:</strong> chassis, caster, camera mount, and wheels designed in Fusion 360 and iterated
-              through 3D prints until everything fit</li>
-          <li><strong>Next:</strong> exporting the URDF into Python to simulate the fleet for RL training (PyBullet, PyTorch)</li>
+          <li>Reactive obstacle avoidance with three ultrasonic sensors, plus gyro-based heading from an MPU-6050 IMU</li>
+          <li>Custom two-layer KiCad PCB and a Fusion 360 chassis designed around it</li>
+          <li>MAX78000 vision board linked over UART as groundwork for camera-based control</li>
         </ul>
-
-        <div class="figs">
-          <figure>
-            <img src="images/fleet/pcb.png" alt="Top view of the custom two-layer PCB with an Arduino Nano footprint, IMU module, and sensor and servo headers">
-            <figcaption>The custom PCB (rendered from the KiCad file).</figcaption>
-          </figure>
-          <figure>
-            <img src="images/fleet/parts.png" alt="Renders of the 3D-printed caster, camera mount, and wheel">
-            <figcaption>3D-printed parts designed in Fusion 360.</figcaption>
-          </figure>
-        </div>
-
-        <details class="code">
-          <summary>Obstacle avoidance with three ultrasonic sensors <span class="file">gyro_practice.ino</span></summary>
-<pre><code><span class="c">// Three HC-SR04 sonars: front (N), left (W), right (E); max range 50 cm</span>
-static NewPing sonar[SONAR_NUM] = {
-  NewPing(TRIGGER_PIN_N, ECHO_PIN_N, MAX_DISTANCE),
-  NewPing(TRIGGER_PIN_W, ECHO_PIN_W, MAX_DISTANCE),
-  NewPing(TRIGGER_PIN_E, ECHO_PIN_E, MAX_DISTANCE)
-};
-
-int sonar_N = sonar[0].ping_cm();
-int sonar_W = sonar[1].ping_cm();
-int sonar_E = sonar[2].ping_cm();
-
-<span class="c">// React to anything closer than 20 cm (0 means no echo)</span>
-if (sonar_N &lt; 20 &amp;&amp; sonar_N &gt; 0) {
-  rightWheel.write(0);
-  leftWheel.write(180);
-}
-else if (sonar_W &lt; 20 &amp;&amp; sonar_W &gt; 0) {
-  leftWheel.write(180);
-  rightWheel.write(90);
-}
-else if (sonar_E &lt; 20 &amp;&amp; sonar_E &gt; 0) {
-  leftWheel.write(90);
-  rightWheel.write(0);
-}
-else {
-  rightWheel.write(90);  <span class="c">// 90 = stop for continuous-rotation servos</span>
-  leftWheel.write(90);
-}</code></pre>
-        </details>
-
-        <details class="code">
-          <summary>Heading from the MPU-6050 gyro <span class="file">gyro_practice.ino</span></summary>
-<pre><code><span class="c">// Read the three gyro axes over I2C (6 bytes starting at GYRO_XOUT_H)</span>
-Wire.beginTransmission(MPU);
-Wire.write(0x43);
-Wire.endTransmission(false);
-Wire.requestFrom(MPU, 6, true);
-GyroX = (Wire.read() &lt;&lt; 8 | Wire.read()) / 131.0;  <span class="c">// ±250 °/s range → °/s</span>
-GyroY = (Wire.read() &lt;&lt; 8 | Wire.read()) / 131.0;
-GyroZ = (Wire.read() &lt;&lt; 8 | Wire.read()) / 131.0;
-
-<span class="c">// Correct with calibrated bias, then integrate the z-rate into yaw</span>
-GyroZ = GyroZ + 1.51;
-yaw = yaw + GyroZ * elapsedTime;</code></pre>
-        </details>
-
-        <details class="code">
-          <summary>MAX78000 → Arduino commands over UART <span class="file">MAX_practice/src/main.c</span></summary>
-<pre><code>MXC_UART_Init(MXC_UART2, 115200, MXC_UART_APB_CLK);
-MXC_UART_SetDataSize(MXC_UART2, 8);
-MXC_UART_SetParity(MXC_UART2, MXC_UART_PARITY_DISABLE);
-MXC_UART_SetStopBits(MXC_UART2, MXC_UART_STOP_1);
-
-while (1) {
-    if (val) {
-        LED_On(LED);
-        const char* msg = "1\n";               <span class="c">// newline-terminated command</span>
-        len = strlen(msg);
-        MXC_UART_Write(MXC_UART2, (uint8_t*)msg, &amp;len);
-    }
-    else {
-        LED_Off(LED);
-        const char* msg = "0\n";
-        len = strlen(msg);
-        MXC_UART_Write(MXC_UART2, (uint8_t*)msg, &amp;len);
-    }
-    val = !val;
-    MXC_Delay(1000000);                        <span class="c">// ~1 second delay</span>
-}</code></pre>
-        </details>
-
         <div class="buttons">
+          <a class="btn small primary" href="projects/robotic-fleet.html">Build log, video &amp; code →</a>
           <a class="btn small" href="https://github.com/apd915/Multi_Agent_RL" target="_blank">GitHub</a>
         </div>
       </div>

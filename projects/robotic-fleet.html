@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Autonomous Robotic Fleet · Alejandro Pelaez</title>
+  <meta name="description" content="A small autonomous car built from scratch (breadboard prototype, custom KiCad PCB, Fusion 360 chassis, and Arduino firmware), the first unit of a multi-agent robotic fleet.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="../index.html">Alejandro <span>Pelaez</span></a>
+    <nav class="nav">
+      <a href="../index.html">About</a>
+      <a href="../research.html">Research</a>
+      <a href="../projects.html" class="active">Projects</a>
+      <a href="../files/CV.pdf" target="_blank">CV ↗</a>
+    </nav>
+  </div>
+</header>
+
+<article class="article wide">
+  <a class="back" href="../projects.html">← All projects</a>
+  <p class="eyebrow">Independent project · In progress</p>
+  <h1>Autonomous Robotic Fleet</h1>
+  <p class="lede">A small autonomous car built from scratch (electronics, PCB, chassis, and firmware), the first unit
+     of a fleet I'm building toward leader–follower behavior learned with multi-agent reinforcement learning.</p>
+
+  <div class="buttons">
+    <a class="btn small" href="https://github.com/apd915/Multi_Agent_RL" target="_blank">GitHub</a>
+  </div>
+
+  <div class="portrait-pair">
+    <figure>
+      <video class="clip" src="../media/fleet-obstacle-avoidance.mp4" poster="../images/fleet/video-poster.jpg"
+             controls muted loop playsinline preload="metadata"></video>
+      <figcaption>Reactive obstacle avoidance: the car turns away as a hand approaches its ultrasonic sensors.</figcaption>
+    </figure>
+    <figure>
+      <img src="../images/fleet/assembled.jpg" alt="Assembled car: white 3D-printed chassis holding the custom black PCB, Arduino Nano, IMU, three ultrasonic sensors, servo wheels and a 9 V battery">
+      <figcaption>The assembled car: custom PCB, Arduino Nano, MPU-6050 IMU, three HC-SR04 sensors, and a 9 V battery bay.</figcaption>
+    </figure>
+  </div>
+
+  <h2>From breadboard to robot</h2>
+  <div class="steps">
+    <figure>
+      <img src="../images/fleet/breadboard.jpg" alt="Breadboard prototype with an Arduino Uno, a MAX78000 board, an ESP32, three ultrasonic sensors and two servo wheels">
+      <figcaption><b>Breadboard prototype.</b> Wiring the sensors, servos, Arduino, and MAX78000 together and testing each piece with a voltmeter and mock code.</figcaption>
+    </figure>
+    <figure>
+      <img src="../images/fleet/cad-assembly.jpg" alt="Fusion 360 assembly of the chassis with the PCB, three ultrasonic sensors and a 9 V battery placed inside">
+      <figcaption><b>CAD assembly.</b> Designing the chassis in Fusion 360 around the exact board, sensor, and battery dimensions.</figcaption>
+    </figure>
+    <figure>
+      <img src="../images/fleet/pcb-layout.png" alt="KiCad layout of the two-layer PCB with Arduino Nano footprint, GY-521 IMU, sensor and servo headers">
+      <figcaption><b>PCB layout.</b> A two-layer KiCad board that replaces the breadboard wiring: Nano, IMU, three sensor headers, two servo headers, and a ground pour.</figcaption>
+    </figure>
+  </div>
+  <p class="muted">The result is the car at the top of the page: printed, populated, and driving, after several rounds of
+     3D prints until everything fit.</p>
+
+  <h2>How it works</h2>
+  <ul>
+    <li><strong>Sensing and control:</strong> an Arduino Nano drives two continuous-rotation servo wheels, reacts to
+        obstacles with three HC-SR04 ultrasonic sensors (front, left, right), and tracks heading by integrating the
+        bias-corrected gyro of an MPU-6050 IMU over I²C.</li>
+    <li><strong>Vision board:</strong> a MAX78000 (Maxim's microcontroller with a CNN accelerator and camera interface)
+        sends commands to the Arduino over UART. This is the groundwork for camera-based control on the car.</li>
+    <li><strong>Mechanical:</strong> chassis, caster, camera mount, and wheels designed in Fusion 360 and 3D-printed.</li>
+    <li><strong>Next:</strong> exporting the URDF into Python to simulate the fleet for RL training (PyBullet, PyTorch).</li>
+  </ul>
+
+  <figure>
+    <img src="../images/fleet/parts.png" alt="Renders of the 3D-printed caster, camera mount, and wheel">
+    <figcaption>Other 3D-printed parts (rendered from the STL files).</figcaption>
+  </figure>
+
+  <h2>Code</h2>
+  <details class="code">
+    <summary>Obstacle avoidance with three ultrasonic sensors <span class="file">gyro_practice.ino</span></summary>
+<pre><code><span class="c">// Three HC-SR04 sonars: front (N), left (W), right (E); max range 50 cm</span>
+static NewPing sonar[SONAR_NUM] = {
+  NewPing(TRIGGER_PIN_N, ECHO_PIN_N, MAX_DISTANCE),
+  NewPing(TRIGGER_PIN_W, ECHO_PIN_W, MAX_DISTANCE),
+  NewPing(TRIGGER_PIN_E, ECHO_PIN_E, MAX_DISTANCE)
+};
+
+int sonar_N = sonar[0].ping_cm();
+int sonar_W = sonar[1].ping_cm();
+int sonar_E = sonar[2].ping_cm();
+
+<span class="c">// React to anything closer than 20 cm (0 means no echo)</span>
+if (sonar_N &lt; 20 &amp;&amp; sonar_N &gt; 0) {
+  rightWheel.write(0);
+  leftWheel.write(180);
+}
+else if (sonar_W &lt; 20 &amp;&amp; sonar_W &gt; 0) {
+  leftWheel.write(180);
+  rightWheel.write(90);
+}
+else if (sonar_E &lt; 20 &amp;&amp; sonar_E &gt; 0) {
+  leftWheel.write(90);
+  rightWheel.write(0);
+}
+else {
+  rightWheel.write(90);  <span class="c">// 90 = stop for continuous-rotation servos</span>
+  leftWheel.write(90);
+}</code></pre>
+  </details>
+
+  <details class="code">
+    <summary>Heading from the MPU-6050 gyro <span class="file">gyro_practice.ino</span></summary>
+<pre><code><span class="c">// Read the three gyro axes over I2C (6 bytes starting at GYRO_XOUT_H)</span>
+Wire.beginTransmission(MPU);
+Wire.write(0x43);
+Wire.endTransmission(false);
+Wire.requestFrom(MPU, 6, true);
+GyroX = (Wire.read() &lt;&lt; 8 | Wire.read()) / 131.0;  <span class="c">// ±250 °/s range → °/s</span>
+GyroY = (Wire.read() &lt;&lt; 8 | Wire.read()) / 131.0;
+GyroZ = (Wire.read() &lt;&lt; 8 | Wire.read()) / 131.0;
+
+<span class="c">// Correct with calibrated bias, then integrate the z-rate into yaw</span>
+GyroZ = GyroZ + 1.51;
+yaw = yaw + GyroZ * elapsedTime;</code></pre>
+  </details>
+
+  <details class="code">
+    <summary>MAX78000 → Arduino commands over UART <span class="file">MAX_practice/src/main.c</span></summary>
+<pre><code>MXC_UART_Init(MXC_UART2, 115200, MXC_UART_APB_CLK);
+MXC_UART_SetDataSize(MXC_UART2, 8);
+MXC_UART_SetParity(MXC_UART2, MXC_UART_PARITY_DISABLE);
+MXC_UART_SetStopBits(MXC_UART2, MXC_UART_STOP_1);
+
+while (1) {
+    if (val) {
+        LED_On(LED);
+        const char* msg = "1\n";               <span class="c">// newline-terminated command</span>
+        len = strlen(msg);
+        MXC_UART_Write(MXC_UART2, (uint8_t*)msg, &amp;len);
+    }
+    else {
+        LED_Off(LED);
+        const char* msg = "0\n";
+        len = strlen(msg);
+        MXC_UART_Write(MXC_UART2, (uint8_t*)msg, &amp;len);
+    }
+    val = !val;
+    MXC_Delay(1000000);                        <span class="c">// ~1 second delay</span>
+}</code></pre>
+  </details>
+
+  <p style="margin-top:40px"><a href="../projects.html">← Back to all projects</a></p>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© 2026 Alejandro Pelaez</span>
+    <span><a href="https://github.com/apd915">GitHub</a> · <a href="https://www.linkedin.com/in/alejandro-pelaez/">LinkedIn</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
