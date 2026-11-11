@@ -37,12 +37,13 @@
   <div class="buttons">
     <a class="btn small" href="https://github.com/apd915/COAST_roscopter" target="_blank">GitHub: ROScopter integration</a>
     <a class="btn small" href="https://github.com/apd915/COAST_rosflight_ros_pkgs" target="_blank">GitHub: ROSflight packages</a>
-    <a class="btn small" href="https://www.youtube.com/watch?v=4DAEhcorQt8" target="_blank">Watch video ↗</a>
+    <a class="btn small" href="#videos">Watch videos ↓</a>
   </div>
 
   <figure>
-    <img src="../images/coast/benchmark.png" alt="Optimized flight path weaving through safe flight corridors around randomly placed buildings">
-    <figcaption>An optimized flight path (blue) through a chain of safe flight corridors (purple) in a randomized benchmark environment.</figcaption>
+    <img src="../images/coast/coast-rviz.jpg" alt="RViz view of a quadrotor in a forest of cylinders, with LiDAR returns in green, safe flight corridors in red and the planned trajectory in blue">
+    <figcaption>COAST in a dense environment. LiDAR returns (green) are used to build dynamically sized safe flight
+      corridors (red), and a minimum-snap B-spline trajectory (blue) is optimized inside them.</figcaption>
   </figure>
 
   <h2>Motivation</h2>
@@ -53,28 +54,36 @@
      planner that provably respects obstacle boundaries.</p>
 
   <h2>Approach</h2>
+  <p>Current B-spline planners either keep hard corridor guarantees and pay for it in computation, or swap them
+     for soft penalties to run in real time. COAST splits the problem into two stages to keep both:</p>
   <ul>
-    <li><strong>Safe flight corridors.</strong> The trajectory is constrained to a chain of rectangular
-        prisms that are proven to be obstacle-free.</li>
-    <li><strong>Time-parameterized B-splines.</strong> B-splines are differentiable, so velocity and
-        acceleration come straight from the control points. Their convex-hull property means that if the
-        control points stay inside a corridor, the whole curve does too.</li>
-    <li><strong>MINVO bounds.</strong> Converting the control points to a minimum-volume (MINVO) basis gives
-        tighter, less conservative bounds on velocity and acceleration than the raw control polygon.</li>
-    <li><strong>Snap minimization.</strong> A quadratic program (OSQP) minimizes snap subject to the corridor
-        and dynamic constraints. Simple bounds and matrix B-spline representations keep it fast.</li>
+    <li><strong>Front end: corridors.</strong> An A* search builds a chain of geometrically simple safe flight
+        corridors: rectangular prisms that resize to fit the obstacles around them.</li>
+    <li><strong>Back end: control-point QP.</strong> A quadratic program (OSQP) places the B-spline control points
+        to minimize snap, which keeps the flight smooth.</li>
+    <li><strong>Guaranteed containment.</strong> Corridor intersections aren't convex, so COAST uses the
+        <em>finite support</em> property of B-splines: each piece of the curve depends only on a few control
+        points, and bounding those keeps the spline inside the corridors. This gives a formal geometric guarantee.</li>
+    <li><strong>MINVO kinodynamic bounds.</strong> Transforming control points to the minimum-volume (MINVO) basis
+        wraps the curve much more tightly than the raw control polygon, so velocity and acceleration limits are
+        enforced without being overly conservative.</li>
   </ul>
 
   <div class="figs">
     <figure>
-      <img src="../images/coast/corridors.png" alt="Top-down view of corridors linking start to goal through a grid of obstacles">
-      <figcaption>Corridors and control points routing through a grid of obstacles.</figcaption>
+      <img src="../images/coast/sfc-sizing.png" alt="A chain of rectangular corridors of different widths and heights wrapping around obstacles">
+      <figcaption>Dynamically sized corridors: nearby obstacles set each prism's width and height.</figcaption>
     </figure>
     <figure>
-      <img src="../images/coast/min-snap.png" alt="3D plot of a minimum snap B-spline trajectory with its control polygon and MINVO bounds">
-      <figcaption>A minimum-snap B-spline segment with its control polygon and MINVO bounds.</figcaption>
+      <img src="../images/coast/minvo-hull.png" alt="Comparison of B-spline and MINVO control points around the same trajectory">
+      <figcaption>B-spline (orange) vs. MINVO (red) control points. MINVO gives a much tighter hull around the trajectory.</figcaption>
     </figure>
   </div>
+
+  <figure>
+    <img src="../images/coast/timeline.png" alt="A quadrotor trajectory passing through four corridors, colored by one-second time intervals">
+    <figcaption>A time-parameterized trajectory threading four corridors, colored by second.</figcaption>
+  </figure>
 
   <h2>Pipeline</h2>
   <div class="flow">
@@ -92,25 +101,26 @@
      fixed-size corridors with obstacles expanded to account for turn radius.</p>
 
   <h2>Results</h2>
-  <p>Benchmarked in simulation with LiDAR point clouds in RViz, in forests of randomly placed obstacles at 5% and 10% density:</p>
+  <p>Validated in high-fidelity simulation: the quadrotor's physics and low-level control run in ROSflight, with
+     ROScopter as the autopilot tracking COAST's trajectories, through forests of randomly placed obstacles fed by
+     simulated LiDAR. Ten independent trials were run at each obstacle density.</p>
 
-  <figure>
-    <div class="video">
-      <iframe src="https://www.youtube-nocookie.com/embed/4DAEhcorQt8" title="COAST 10% Environment Density Traversal"
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
-    </div>
-    <figcaption>COAST flying through a 10% density environment (video: MAGICC Lab).</figcaption>
-  </figure>
-
-  <div class="figs">
+  <div class="figs" id="videos">
     <figure>
-      <img src="../images/coast/rviz-5.jpg" alt="RViz simulation with sparse cylindrical obstacles and LiDAR returns">
-      <figcaption>5% obstacle density</figcaption>
+      <div class="video">
+        <iframe src="https://www.youtube-nocookie.com/embed/vLwIfJogCZc" title="COAST: 5% Environment Density Traversal"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <figcaption>5% obstacle density (video: MAGICC Lab)</figcaption>
     </figure>
     <figure>
-      <img src="../images/coast/rviz-10.jpg" alt="RViz simulation with denser cylindrical obstacles and LiDAR returns">
-      <figcaption>10% obstacle density</figcaption>
+      <div class="video">
+        <iframe src="https://www.youtube-nocookie.com/embed/4DAEhcorQt8" title="COAST 10% Environment Density Traversal"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <figcaption>10% obstacle density (video: MAGICC Lab)</figcaption>
     </figure>
   </div>
 
@@ -128,8 +138,10 @@
       </tbody>
     </table>
   </div>
-  <p class="muted">Optimization takes about 1 ms and full replanning under 5 ms, with no velocity or acceleration
-     constraint violations at either density.</p>
+  <p class="muted">The QP solves in about 1 ms and full end-to-end replanning averages under 5 ms. Not one commanded
+     setpoint violated the velocity or acceleration limits at either density, which validates the MINVO bounds end
+     to end. COAST reached the goal without contact in 10/10 trials at 5% density and 9/10 at 10%, where the one
+     failure was a stall.</p>
 
   <h2>Next steps</h2>
   <ul>
