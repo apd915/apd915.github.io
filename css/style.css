@@ -257,6 +257,36 @@ h3 { font-size: 1.15rem; margin: 0 0 4px; letter-spacing: -0.01em; }
 .project h3 a:hover { color: var(--accent); }
 .card img.thumb { border-bottom: 1px solid var(--border); background: #fff; }
 
+/* ---------- Code snippets (collapsible) ---------- */
+details.code { margin: 12px 0 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+details.code summary {
+  cursor: pointer;
+  padding: 9px 14px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--accent);
+  list-style: none;
+}
+details.code summary::-webkit-details-marker { display: none; }
+details.code summary::before { content: "▸ "; display: inline-block; transition: transform .15s ease; }
+details.code[open] summary::before { transform: rotate(90deg); }
+details.code summary .file { font-weight: 400; color: var(--muted); font-family: ui-monospace, Consolas, monospace; font-size: 0.8rem; margin-left: 6px; }
+details.code pre {
+  margin: 0;
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  overflow-x: auto;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+details.code .c { color: var(--muted); font-style: italic; }
+.thumb.contain { object-fit: contain; background: #fff; }
+.project .figs { margin: 14px 0; }
+.project figure { margin: 0; }
+.project figure img { border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+.project figcaption { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
 /* ---------- Detail pages ---------- */
 .article.wide { max-width: 860px; }
 .article .lede { font-size: 1.1rem; color: var(--muted); margin: 0 0 18px; }
@@ -315,6 +345,7 @@ table.results tbody tr:last-child td { border-bottom: 0; }
   border-bottom: 1px solid var(--border);
 }
 .project:last-child { border-bottom: 0; }
+.project > * { min-width: 0; } /* lets wide code blocks scroll instead of stretching the column */
 .project .thumb, .project .placeholder { border-radius: var(--radius); border: 1px solid var(--border); }
 .project .lab { font-style: italic; color: var(--muted); margin: 0 0 4px; }
 .project .meta { font-size: 0.85rem; color: var(--muted); margin: 0 0 10px; }
