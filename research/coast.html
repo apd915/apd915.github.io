@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COAST · Alejandro Pelaez</title>
+  <meta name="description" content="COAST: a real-time safe flight corridor planner for fast, robust, snap-minimized UAV trajectories.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- This page is one folder down, so paths start with ../ -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="../index.html">Alejandro <span>Pelaez</span></a>
+    <nav class="nav">
+      <a href="../index.html">About</a>
+      <a href="../research.html" class="active">Research</a>
+      <a href="../projects.html">Projects</a>
+      <a href="../files/CV.pdf" target="_blank">CV ↗</a>
+    </nav>
+  </div>
+</header>
+
+<article class="article wide">
+  <a class="back" href="../research.html">← All research</a>
+  <p class="eyebrow">BYU MAGICC Lab · Feb 2026 – Present</p>
+  <h1>COAST: Corridor-Optimized Aerially-Safe Trajectories</h1>
+  <p class="lede">A real-time path and trajectory planner for UAVs that keeps the obstacle-avoidance
+     guarantees of safe flight corridors while running fast enough to replan in flight.</p>
+  <p class="muted">Alejandro Pelaez &amp; Randal W. Beard · Submitted to the 2027 American Control Conference (ACC) ·
+     <span class="award">2nd Place, SHPE 2026 National Poster Competition</span></p>
+
+  <div class="buttons">
+    <a class="btn small" href="https://github.com/apd915/COAST_roscopter" target="_blank">GitHub: ROScopter integration</a>
+    <a class="btn small" href="https://github.com/apd915/COAST_rosflight_ros_pkgs" target="_blank">GitHub: ROSflight packages</a>
+  </div>
+
+  <figure>
+    <img src="../images/coast/benchmark.png" alt="Optimized flight path weaving through safe flight corridors around randomly placed buildings">
+    <figcaption>An optimized flight path (blue) through a chain of safe flight corridors (purple) in a randomized benchmark environment.</figcaption>
+  </figure>
+
+  <h2>Motivation</h2>
+  <p>An online trajectory planner decides how an aircraft physically gets from A to B using only its
+     onboard sensors. Existing planners tend to pick one side of a trade-off: some give
+     <strong>mathematical guarantees at the expense of computation time</strong>, while others are
+     <strong>fast but give up those guarantees</strong>. COAST is built to get both: a highly efficient
+     planner that provably respects obstacle boundaries.</p>
+
+  <h2>Approach</h2>
+  <ul>
+    <li><strong>Safe flight corridors.</strong> The trajectory is constrained to a chain of rectangular
+        prisms that are proven to be obstacle-free.</li>
+    <li><strong>Time-parameterized B-splines.</strong> B-splines are differentiable, so velocity and
+        acceleration come straight from the control points. Their convex-hull property means that if the
+        control points stay inside a corridor, the whole curve does too.</li>
+    <li><strong>MINVO bounds.</strong> Converting the control points to a minimum-volume (MINVO) basis gives
+        tighter, less conservative bounds on velocity and acceleration than the raw control polygon.</li>
+    <li><strong>Snap minimization.</strong> A quadratic program (OSQP) minimizes snap subject to the corridor
+        and dynamic constraints. Simple bounds and matrix B-spline representations keep it fast.</li>
+  </ul>
+
+  <div class="figs">
+    <figure>
+      <img src="../images/coast/corridors.png" alt="Top-down view of corridors linking start to goal through a grid of obstacles">
+      <figcaption>Corridors and control points routing through a grid of obstacles.</figcaption>
+    </figure>
+    <figure>
+      <img src="../images/coast/min-snap.png" alt="3D plot of a minimum snap B-spline trajectory with its control polygon and MINVO bounds">
+      <figcaption>A minimum-snap B-spline segment with its control polygon and MINVO bounds.</figcaption>
+    </figure>
+  </div>
+
+  <h2>Pipeline</h2>
+  <div class="flow">
+    <div class="step"><b>Inputs</b>LiDAR map, start/goal, velocity and acceleration limits, spline degree, aircraft radius</div>
+    <div class="arrow">→</div>
+    <div class="step"><b>Path search</b>A* on a voxelized map with obstacle expansion (Dubins A* for fixed-wing turn limits)</div>
+    <div class="arrow">→</div>
+    <div class="step"><b>Corridors</b>Safe flight corridors sized to the path, with control points allotted by corridor length</div>
+    <div class="arrow">→</div>
+    <div class="step"><b>Optimizer</b>Snap-minimizing QP with corridor and MINVO velocity/acceleration constraints</div>
+    <div class="arrow">→</div>
+    <div class="step"><b>Output</b>An obstacle-free, time-parameterized trajectory that respects the aircraft's limits</div>
+  </div>
+  <p class="muted">Multirotors use dynamically resized corridors for cluttered and indoor flight. Fixed-wing aircraft use
+     fixed-size corridors with obstacles expanded to account for turn radius.</p>
+
+  <h2>Results</h2>
+  <p>Benchmarked in simulation with LiDAR point clouds in RViz, in forests of randomly placed obstacles at 5% and 10% density:</p>
+
+  <div class="figs">
+    <figure>
+      <img src="../images/coast/rviz-5.jpg" alt="RViz simulation with sparse cylindrical obstacles and LiDAR returns">
+      <figcaption>5% obstacle density</figcaption>
+    </figure>
+    <figure>
+      <img src="../images/coast/rviz-10.jpg" alt="RViz simulation with denser cylindrical obstacles and LiDAR returns">
+      <figcaption>10% obstacle density</figcaption>
+    </figure>
+  </div>
+
+  <div class="table-wrap">
+    <table class="results">
+      <thead>
+        <tr>
+          <th>Density</th><th>Success</th><th>Optimize (ms)</th><th>Replan (ms)</th>
+          <th>Travel time (s)</th><th>Path length (m)</th><th>Jerk (m/s³)</th><th>Vel. / accel. violations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>5%</td><td>100%</td><td>0.89</td><td>2.46</td><td>47.48</td><td>109.79</td><td>64.58</td><td>0% / 0%</td></tr>
+        <tr><td>10%</td><td>90%</td><td>1.10</td><td>4.25</td><td>50.16</td><td>119.68</td><td>129.20</td><td>0% / 0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted">Optimization takes about 1 ms and full replanning under 5 ms, with no velocity or acceleration
+     constraint violations at either density.</p>
+
+  <h2>Next steps</h2>
+  <ul>
+    <li>Release COAST as a pip-installable open-source library, and possibly a ROS package</li>
+    <li>Extensive hardware flight tests indoors and outdoors</li>
+    <li>Head-to-head comparisons against other state-of-the-art planners</li>
+    <li>Extend the ACC paper into a journal publication</li>
+  </ul>
+
+  <p style="margin-top:40px"><a href="../research.html">← Back to all research</a></p>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© 2026 Alejandro Pelaez</span>
+    <span><a href="https://github.com/apd915">GitHub</a> · <a href="https://www.linkedin.com/in/alejandro-pelaez/">LinkedIn</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

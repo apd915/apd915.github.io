@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects · Alejandro Pelaez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html">Alejandro <span>Pelaez</span></a>
+    <nav class="nav">
+      <a href="index.html">About</a>
+      <a href="research.html">Research</a>
+      <a href="projects.html" class="active">Projects</a>
+      <a href="files/CV.pdf" target="_blank">CV ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="page-head">
+    <h1>Projects</h1>
+    <p>Independent hardware and software builds: embedded systems, PCBs, and robots I've designed
+       and built from scratch.</p>
+  </div>
+
+  <!-- Same pattern as research.html: copy an <article class="project"> block to add one.
+       Swap a .placeholder div for <img class="thumb" src="images/..." alt="..."> once you have a photo. -->
+
+  <section style="border-top:0; padding-top:0">
+
+    <article class="project" id="robotic-fleet">
+      <div class="placeholder">Robotic Fleet</div>
+      <div>
+        <h3>Autonomous Robotic Fleet</h3>
+        <p class="lab">Independent project · In progress</p>
+        <p class="meta">KiCad · Fusion 360 · PyBullet · PyTorch</p>
+        <p>A fleet of small autonomous cars built from scratch, aimed at leader–follower behavior trained with
+           multi-agent reinforcement learning.</p>
+        <ul>
+          <li>Drafted the circuitry and sensor layout (distance sensors, IMU, servos) and prototyped it on a breadboard</li>
+          <li>Designed a custom two-layer PCB in KiCad and a car enclosure in Fusion 360, iterating on 3D prints to fit</li>
+          <li>Next step: exporting the URDF into Python to simulate environments for RL training</li>
+        </ul>
+        <div class="buttons">
+          <a class="btn small" href="https://github.com/apd915/Multi_Agent_RL" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" id="rc-wifi">
+      <div class="placeholder">ESP32 RC Car</div>
+      <div>
+        <h3>Wi-Fi RC Communication Vehicle</h3>
+        <p class="lab">Independent project</p>
+        <p class="meta">ESP32 · C · Wi-Fi networking</p>
+        <p>An RC car controlled over Wi-Fi with two ESP32s: one reads user input, the other drives the car's
+           actuators and sensors.</p>
+        <ul>
+          <li>Used pointers, manual memory allocation, and finite state machines to keep the control loop lean</li>
+          <li>Implemented MAC-addressed packet send/receive between the boards, getting latency to 100 ms or less</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="project" id="quadcopter">
+      <div class="placeholder">Self-Leveling Drone</div>
+      <div>
+        <h3>Self-Leveling Drone</h3>
+        <p class="lab">Independent project</p>
+        <p class="meta">C++ · Arduino · PID control</p>
+        <p>A quadcopter that levels itself after pilot input, using a gyroscope/accelerometer for attitude
+           estimation and a radio transmitter/receiver for manual control.</p>
+        <ul>
+          <li>Built, soldered, and tested the full stack: microcontroller → ESCs → brushless motors</li>
+          <li>Implemented PID control on gyroscope feedback to regulate motor speed and tilt</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="project" id="doorbell">
+      <div class="placeholder">Smart Doorbell</div>
+      <div>
+        <h3>Smart Doorbell</h3>
+        <p class="lab">Course project · Brigham Young University</p>
+        <p class="meta">Sep – Dec 2023 &nbsp;|&nbsp; Raspberry Pi · Embedded C</p>
+        <p>A Raspberry Pi doorbell that takes a photo when it's rung, shows it on a display, and uploads it
+           to an online server.</p>
+      </div>
+    </article>
+
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© 2026 Alejandro Pelaez</span>
+    <span><a href="https://github.com/apd915">GitHub</a> · <a href="https://www.linkedin.com/in/alejandro-pelaez/">LinkedIn</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

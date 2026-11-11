@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Alejandro Pelaez</title>
-  <meta name="description" content="Alejandro Pelaez — Computer Engineering at BYU. Learning-based algorithms for aerial and ground robots: perception, planning, and control.">
+  <meta name="description" content="Alejandro Pelaez — Computer Engineering at BYU. Real-time planning, perception, and learning-based control for autonomous aerial and ground systems.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
     <nav class="nav">
       <a href="index.html" class="active">About</a>
       <a href="research.html">Research</a>
-      <a href="blog.html">Blog</a>
+      <a href="projects.html">Projects</a>
       <a href="files/CV.pdf" target="_blank">CV ↗</a>
     </nav>
   </div>
@@ -31,26 +31,25 @@
     <div>
       <p class="eyebrow">Undergraduate Researcher · BYU</p>
       <h1>Alejandro Pelaez</h1>
-      <p class="tagline">Computer Engineering — Learning-Based Algorithms for Aerial Systems</p>
+      <p class="tagline">Computer Engineering — Autonomous Aerial &amp; Ground Systems</p>
 
       <p>
         I'm a <strong>Computer Engineering</strong> student at <strong>Brigham Young University</strong>
         with minors in <strong>Mathematics</strong> and <strong>Computer Science</strong>, graduating in April 2027.
-        I do research in three labs: the <strong>MAGICC Lab</strong>, where I build real-time trajectory planning
-        for multirotor and fixed-wing UAVs; the <strong>FROST Lab</strong>, where I train computer vision networks
-        that build road graphs from satellite imagery; and the <strong>Robotics and Dynamics Lab</strong>, where I
-        work on control for soft robots.
+        I work on <strong>real-time trajectory planning</strong> for UAVs in the MAGICC Lab with Dr. Randy Beard,
+        <strong>vision foundation models</strong> for satellite road-network extraction in the FROST Lab with
+        Dr. Brady Moon, and <strong>learning-based control</strong> for soft robots in the RaD Lab with Dr. Marc Killpack.
       </p>
       <p>
-        I'm interested in where <strong>learning-based methods</strong> meet the
-        <strong>perception, planning, and control</strong> of aerial and ground vehicles, and I'm applying to
-        graduate programs in robotics to pursue that work.
+        My research sits where <strong>learning-based methods</strong> meet the
+        <strong>perception, planning, and control</strong> of autonomous vehicles. I'm applying to graduate
+        programs in robotics to continue that work.
       </p>
 
       <div class="buttons">
         <a class="btn primary" href="files/CV.pdf" target="_blank">View CV ↗</a>
         <a class="btn" href="research.html">Research →</a>
-        <a class="btn" href="blog.html">Blog →</a>
+        <a class="btn" href="projects.html">Projects →</a>
       </div>
 
       <div class="icon-links">
@@ -68,44 +67,50 @@
     </div>
 
     <div class="hero-photo">
-      <!-- TODO: save your headshot as images/headshot.jpg and change src to "images/headshot.jpg" -->
-      <img src="https://avatars.githubusercontent.com/u/144178021?v=4" alt="Alejandro Pelaez">
+      <img src="images/headshot.jpg" alt="Alejandro Pelaez">
     </div>
+  </div>
+
+  <!-- ===== STATS ===== -->
+  <div class="stats">
+    <div class="stat"><div class="num">2</div><div class="what">First-author papers under review (ACC 2027, IEEE J-STARS)</div></div>
+    <div class="stat"><div class="num">&lt;10 ms</div><div class="what">Trajectory optimization time for COAST</div></div>
+    <div class="stat"><div class="num">2nd</div><div class="what">National, SHPE 2026 undergraduate research poster</div></div>
+    <div class="stat"><div class="num">3</div><div class="what">Research labs: MAGICC, FROST, RaD</div></div>
   </div>
 
   <!-- ===== SELECTED WORK ===== -->
   <section>
     <div class="section-head">
-      <h2>Selected Work</h2>
+      <h2>Selected Research</h2>
       <a href="research.html">See all research →</a>
     </div>
 
     <div class="cards">
-      <!-- Each card: swap the .placeholder div for <img class="thumb" src="images/xxx.jpg" alt=""> -->
-      <a class="card" href="research.html#trajectory-planning">
-        <div class="placeholder">UAV Trajectory Planning</div>
+      <a class="card" href="research/coast.html">
+        <img class="thumb" src="images/coast/benchmark.png" alt="COAST trajectory through safe flight corridors in a randomized obstacle field">
         <div class="body">
-          <div class="org">BYU MAGICC Lab</div>
-          <h3>Real-Time Trajectory Planning for Aerial Vehicles</h3>
-          <div class="keywords">C++ · ROS 2 · ROSflight · Obstacle Avoidance</div>
+          <div class="org">BYU MAGICC Lab · ACC 2027 (submitted)</div>
+          <h3>COAST: Safe Flight Corridor Planner for Snap-Minimized Trajectories</h3>
+          <div class="keywords">C++ · B-Splines · Quadratic Programming · ROS 2</div>
         </div>
       </a>
 
-      <a class="card" href="research.html#road-graphs">
+      <a class="card" href="research.html#road-topology">
         <div class="placeholder">Satellite → Road Graph</div>
         <div class="body">
-          <div class="org">BYU FROST Lab</div>
-          <h3>Road Graph Extraction from Satellite Imagery</h3>
-          <div class="keywords">Computer Vision · PyTorch · Mapping</div>
+          <div class="org">BYU FROST Lab · IEEE J-STARS (submitted)</div>
+          <h3>What Transfers to Road Topology? Foundation Models for Road Extraction</h3>
+          <div class="keywords">SAM 2.1 · DINOv3 · C-RADIOv3 · PyTorch</div>
         </div>
       </a>
 
       <a class="card" href="research.html#soft-robotics">
-        <div class="placeholder">Soft Robot Control</div>
+        <div class="placeholder">Soft Robotic Torso</div>
         <div class="body">
           <div class="org">BYU Robotics &amp; Dynamics Lab</div>
-          <h3>Learning-Based Control for Soft Robots</h3>
-          <div class="keywords">MuJoCo · Gym · Reinforcement Learning</div>
+          <h3>Whole-Body Manipulation with a Soft Robotic Torso via Guided RL</h3>
+          <div class="keywords">Reinforcement Learning · MPC · MuJoCo</div>
         </div>
       </a>
     </div>
@@ -116,15 +121,15 @@
     <div class="section-head"><h2>Research Interests</h2></div>
     <div class="tags">
       <span class="tag">Aerial Robotics</span>
-      <span class="tag">Trajectory Planning</span>
-      <span class="tag">Obstacle Avoidance</span>
+      <span class="tag">Trajectory Optimization</span>
+      <span class="tag">Safe Flight Corridors</span>
+      <span class="tag">Motion Planning</span>
       <span class="tag">Learning-Based Control</span>
       <span class="tag">Reinforcement Learning</span>
+      <span class="tag">Model Predictive Control</span>
       <span class="tag">Computer Vision</span>
-      <span class="tag">Perception &amp; Mapping</span>
+      <span class="tag">Foundation Models</span>
       <span class="tag">Multi-Agent Systems</span>
-      <span class="tag">Soft Robotics</span>
-      <span class="tag">Autonomous Ground Vehicles</span>
     </div>
   </section>
 
@@ -134,36 +139,36 @@
     <ul class="timeline">
       <li>
         <div class="when">Feb 2026 – Present</div>
-        <div><span class="label">Research Assistant, Autonomous Aerial Vehicles</span> · BYU MAGICC Lab</div>
+        <div><span class="label">Autonomous Aerial Systems Research Assistant</span> · BYU MAGICC Lab, Dr. Randy Beard</div>
       </li>
       <li>
         <div class="when">Sep 2026 – Present</div>
-        <div><span class="label">Research Assistant, Soft Robotics Control</span> · BYU Robotics &amp; Dynamics Lab</div>
+        <div><span class="label">Robotics &amp; Control Research Assistant</span> · BYU RaD Lab, Dr. Marc Killpack</div>
       </li>
       <li>
         <div class="when">Aug 2025 – Present</div>
-        <div><span class="label">Research Assistant, Robotics &amp; AI</span> · BYU FROST Lab</div>
+        <div><span class="label">Computer Vision &amp; Neural Networks Research Assistant</span> · BYU FROST Lab, Dr. Brady Moon</div>
       </li>
       <li>
         <div class="when">Jun – Aug 2025</div>
-        <div><span class="label">Software Engineering Intern</span> · BNY, Pittsburgh, PA</div>
+        <div><span class="label">Software Engineer Intern</span> · BNY, Pittsburgh, PA</div>
       </li>
       <li>
         <div class="when">Feb 2024 – Jun 2025</div>
-        <div><span class="label">Undergraduate Microfluidics Researcher</span> · BYU College of Engineering</div>
+        <div><span class="label">Microfluidics &amp; Materials Science Research Assistant</span> · BYU, Dr. Greg Nordin &amp; Dr. Troy Munro</div>
       </li>
       <li>
-        <div class="when">Jan – Apr 2024</div>
-        <div><span class="label">Lab Assistant, Electromagnetism &amp; Optics</span> · BYU Physics &amp; Astronomy</div>
+        <div class="when">Jan – May 2024</div>
+        <div><span class="label">Electromagnetism &amp; Optics Lab Assistant</span> · BYU Physics &amp; Astronomy</div>
       </li>
       <li>
         <div class="when">May 2022 – Feb 2024</div>
-        <div><span class="label">Electrician</span> · W Systems Electrical Contracting and Design</div>
+        <div><span class="label">Licensed Commercial Electrician</span> · W Systems Electrical Contracting</div>
       </li>
     </ul>
   </section>
 
-  <!-- ===== EDUCATION & SKILLS ===== -->
+  <!-- ===== EDUCATION & HONORS ===== -->
   <section>
     <div class="two-col">
       <div>
@@ -172,15 +177,34 @@
         Brigham Young University, Provo, UT</p>
         <ul>
           <li>Minors in Mathematics and Computer Science</li>
-          <li>IEEE · SHPE · ECEN Ambassadors · Supermileage</li>
+          <li>Graduate coursework: Autonomous Aircraft, High-Performance Computing</li>
+          <li>Senior coursework: Control Systems, Robotics &amp; Autonomy, Applied Machine Learning</li>
         </ul>
       </div>
       <div>
-        <h2>Skills</h2>
-        <p><span class="label">Languages:</span> <span class="muted">C++, C, Python, Java</span></p>
-        <p><span class="label">Robotics:</span> <span class="muted">ROS 2, ROSflight, MuJoCo, Gymnasium</span></p>
-        <p><span class="label">ML &amp; Vision:</span> <span class="muted">PyTorch, computer vision, reinforcement learning</span></p>
-        <p><span class="label">Hardware:</span> <span class="muted">Embedded C, Arduino, Raspberry Pi, PID control, CAD &amp; 3D printing</span></p>
+        <h2>Honors &amp; Leadership</h2>
+        <ul>
+          <li>2nd place nationally, SHPE 2026 National Convention undergraduate research poster competition</li>
+          <li>3rd place nationally, IBM/Qualcomm-sponsored national STEM competition (200+ competitors)</li>
+          <li>Hispanic Scholarship Fund Scholar</li>
+          <li>BYU academic scholarship (2022 – present)</li>
+          <li>SHPE BYU chapter: Secretary, Vice-President, President (2023 – present); led $60k+ in fundraising</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Skills</h2></div>
+    <div class="two-col">
+      <div>
+        <p><span class="label">Languages:</span> <span class="muted">Python, C/C++, MATLAB</span></p>
+        <p><span class="label">ML &amp; Robotics:</span> <span class="muted">PyTorch, OpenCV, ROS 2, PyBullet, Isaac Sim, OSQP</span></p>
+        <p><span class="label">Embedded:</span> <span class="muted">Arduino, ESP32, Raspberry Pi</span></p>
+      </div>
+      <div>
+        <p><span class="label">Design:</span> <span class="muted">KiCad, Fusion 360, OpenSCAD</span></p>
+        <p><span class="label">Systems:</span> <span class="muted">Docker, Apptainer, Git, Linux</span></p>
       </div>
     </div>
   </section>

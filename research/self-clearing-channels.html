@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Self-Clearing Channels · Alejandro Pelaez</title>
+  <meta name="description" content="How unpolymerized resin clears from 3D-printed microfluidic channels on its own, and how clearing time scales with channel geometry.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="../index.html">Alejandro <span>Pelaez</span></a>
+    <nav class="nav">
+      <a href="../index.html">About</a>
+      <a href="../research.html" class="active">Research</a>
+      <a href="../projects.html">Projects</a>
+      <a href="../files/CV.pdf" target="_blank">CV ↗</a>
+    </nav>
+  </div>
+</header>
+
+<article class="article wide">
+  <a class="back" href="../research.html">← All research</a>
+  <p class="eyebrow">BYU Electrical Engineering · Feb 2024 – Jun 2025</p>
+  <h1>Self-Clearing Channels in 3D-Printed Microfluidics</h1>
+  <p class="lede">Channels and valves inside a 3D-printed microfluidic chip start out full of uncured resin.
+     Given time, they clear out on their own. This project studied why, and how long it takes.</p>
+  <p class="muted">Alejandro Pelaez, Wesley Wardle, Max Rawlings, Greg Nordin · Oral presentation, BYU IMMERSE, May 2024</p>
+
+  <figure>
+    <img src="../images/channels/channels.jpg" alt="Four 3D-printed channels of different sizes, partially cleared of resin">
+    <figcaption>Printed test channels during clearing. Self-clearing turned out to be as effective as flushing.</figcaption>
+  </figure>
+
+  <h2>What is self-clearing?</h2>
+  <p>When a microfluidic chip is printed from photopolymer resin (here, PEGDA), the empty features such as
+     channels and valves are left filled with unpolymerized resin. Usually that resin is flushed out by hand.
+     We found that, given enough time, the voids <strong>clear themselves</strong>, and that this is as effective
+     as flushing.</p>
+
+  <h2>Two theories</h2>
+  <ul>
+    <li><strong>Full channel clearing.</strong> Resin leaves the channel in an initial clearing phase followed by
+        a slower secondary phase.</li>
+    <li><strong>Resin absorption.</strong> Unpolymerized resin inside the channel is absorbed into the bulk of the
+        chip, by diffusion or other mechanisms.</li>
+  </ul>
+
+  <div class="figs">
+    <figure>
+      <img src="../images/channels/scad-model.png" alt="OpenSCAD model of a test chip with a single embedded channel">
+      <figcaption>An OpenSCAD model of a single-channel test chip.</figcaption>
+    </figure>
+    <figure>
+      <img src="../images/channels/absorption.jpg" alt="Thin printed channels used to observe resin absorption">
+      <figcaption>Thin channels used to observe resin absorption into the bulk.</figcaption>
+    </figure>
+  </div>
+
+  <h2>Method and findings</h2>
+  <p>Instead of tracking volume absorbed over time, we changed the experiment to measure
+     <strong>total clearing time as a function of channel ratio</strong>: the channel's size relative to the chip.
+     That framing is more practical for anyone designing a device. The results point to a potentially
+     <strong>exponential relationship</strong> between channel ratio and clearing time.</p>
+
+  <div class="figs">
+    <figure>
+      <img src="../images/channels/clearing-time.png" alt="Plot of clearing time in hours versus channel percentage, rising steeply above 1 percent">
+      <figcaption>Clearing time versus channel percentage (PEGDA, 175 ms exposure).</figcaption>
+    </figure>
+    <figure>
+      <img src="../images/channels/clearing-time-log.png" alt="Plot of log clearing time versus channel percentage, roughly linear">
+      <figcaption>The same data on a log scale, roughly linear, which suggests exponential growth.</figcaption>
+    </figure>
+  </div>
+
+  <h2>Planned paper structure</h2>
+  <ol>
+    <li>Single-channel clearing</li>
+    <li>Offshoot-channel testing</li>
+    <li>Device practicality and effectiveness, working toward a self-clearing squeeze valve</li>
+  </ol>
+
+  <h2>My role</h2>
+  <ul>
+    <li>Led the project: ideas, experiment structure, analysis, and reporting</li>
+    <li>Built an electronic automation platform for device preparation, cutting prep from 2 days to 4–6 hours and removing human error</li>
+    <li>Mentored two undergraduate researchers with weekly goal-planning and accountability meetings</li>
+    <li>Delivered microfluidic prints to Mechanical Engineering collaborators within 3 days of a print request</li>
+  </ul>
+
+  <p style="margin-top:40px"><a href="../research.html">← Back to all research</a></p>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© 2026 Alejandro Pelaez</span>
+    <span><a href="https://github.com/apd915">GitHub</a> · <a href="https://www.linkedin.com/in/alejandro-pelaez/">LinkedIn</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

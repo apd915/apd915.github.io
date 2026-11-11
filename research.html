@@ -17,7 +17,7 @@
     <nav class="nav">
       <a href="index.html">About</a>
       <a href="research.html" class="active">Research</a>
-      <a href="blog.html">Blog</a>
+      <a href="projects.html">Projects</a>
       <a href="files/CV.pdf" target="_blank">CV ↗</a>
     </nav>
   </div>
@@ -27,52 +27,56 @@
 
   <div class="page-head">
     <h1>Research</h1>
-    <p>Planning, perception, and control for autonomous aerial and ground vehicles, with a focus on
-       learning-based methods. Code is linked where public.</p>
+    <p>Real-time planning, perception, and learning-based control for autonomous aerial and ground
+       systems. Click a project's image or title for a full write-up where available.
+       See also: <a href="#publications">Publications</a> · <a href="#presentations">Presentations</a></p>
   </div>
 
   <!--
-    HOW TO ADD A PROJECT: copy one <article class="project"> ... </article> block,
-    paste it where you want it, and edit the text. For a picture, put the file in
-    images/ and replace the .placeholder div with:
-        <img class="thumb" src="images/your-photo.jpg" alt="Short description">
-    Delete any link button you don't have.
+    HOW TO ADD A PROJECT: copy one <article class="project"> ... </article> block and edit it.
+    For a picture, put the file in images/ and use <img class="thumb" src="images/..." alt="...">.
+    To make it clickable, wrap the image in <a class="thumb-link" href="research/your-page.html">.
   -->
 
   <section style="border-top:0; padding-top:0">
     <div class="section-head"><h2>Current Research</h2></div>
 
-    <article class="project" id="trajectory-planning">
-      <div class="placeholder">UAV Trajectory Planning</div>
+    <article class="project" id="coast">
+      <a class="thumb-link" href="research/coast.html">
+        <img class="thumb" src="images/coast/benchmark.png" alt="COAST trajectory through safe flight corridors in a randomized obstacle field">
+      </a>
       <div>
-        <h3>Real-Time Trajectory Planning for Aerial Vehicles</h3>
-        <p class="lab">BYU MAGICC Lab</p>
-        <p class="meta">Feb 2026 – Present &nbsp;|&nbsp; Research Assistant, Autonomous Aerial Vehicles</p>
-        <p>Developing a ROS 2-compatible C++ library for real-time trajectory planning on multirotor and
-           fixed-wing aircraft. The planner is being tested and benchmarked in simulation, with the goal of
-           flight testing on hardware in real-world scenarios.</p>
+        <h3><a href="research/coast.html">COAST: Safe Flight Corridor Planner for Fast and Robust Snap-Minimized Trajectories</a></h3>
+        <p class="lab">BYU MAGICC Lab · Advisor: Dr. Randal W. Beard</p>
+        <p class="meta">Feb 2026 – Present &nbsp;|&nbsp; First author, submitted to ACC 2027</p>
+        <p>An online trajectory planner for multirotor and fixed-wing UAVs that combines the mathematical
+           guarantees of safe flight corridors with the speed of B-spline optimization.</p>
         <ul>
-          <li>Integrating the COAST real-time obstacle avoidance method into the ROSflight / ROScopter autopilot stack</li>
-          <li>Prototyped RRT-based planning with safe flight corridors (SFC) in the mavsim fixed-wing simulator and compared it against A*</li>
-          <!-- TODO: add a result once you have one (benchmarks, flight tests…) -->
+          <li>C++ planner using KD-tree spatial projections and B-spline kinodynamic bounding, with <strong>sub-10 ms</strong> computation times</li>
+          <li>Simulated LiDAR point clouds feed an OSQP quadratic program in RViz, keeping trajectories dynamically feasible and inside continuous-space safe flight corridors</li>
+          <li>2nd place nationally, SHPE 2026 undergraduate research poster competition</li>
         </ul>
         <div class="buttons">
+          <a class="btn small primary" href="research/coast.html">Read more →</a>
           <a class="btn small" href="https://github.com/apd915/COAST_roscopter" target="_blank">GitHub: ROScopter</a>
           <a class="btn small" href="https://github.com/apd915/COAST_rosflight_ros_pkgs" target="_blank">GitHub: ROSflight pkgs</a>
-          <a class="btn small" href="https://github.com/apd915/rrt-astar_mavsim" target="_blank">GitHub: RRT/SFC</a>
         </div>
       </div>
     </article>
 
-    <article class="project" id="road-graphs">
+    <article class="project" id="road-topology">
       <div class="placeholder">Satellite → Road Graph</div>
       <div>
-        <h3>Road Graph Extraction from Satellite Imagery</h3>
-        <p class="lab">BYU FROST Lab</p>
-        <p class="meta">Aug 2025 – Present &nbsp;|&nbsp; Research Assistant, Robotics &amp; AI</p>
-        <p>Developing computer vision neural networks that turn satellite imagery into node graphs of the road
-           network, to be integrated into autonomous vehicle navigation. The work builds on Sat2Graph's
-           graph-tensor encoding.</p>
+        <h3>What Transfers to Road Topology? Foundation-Model Representations Across Architectures and Domains</h3>
+        <p class="lab">BYU FROST Lab · Advisor: Dr. Brady Moon</p>
+        <p class="meta">Aug 2025 – Present &nbsp;|&nbsp; First author, submitted to IEEE J-STARS</p>
+        <p>A controlled empirical comparison of vision foundation models (SAM 2.1, DINOv3, and C-RADIOv3)
+           as encoders for extracting road networks from satellite imagery.</p>
+        <ul>
+          <li>Evaluated architectural augmentations and cross-domain generalization across 3,300+ satellite images worldwide</li>
+          <li>SAM 2.1 improves out-of-domain topological routing (APLS) by over 4 points versus prior state-of-the-art baselines</li>
+          <li>Built an evaluation pipeline that isolates encoder features, showing that pretraining paradigm matters more for graph connectivity than decoder complexity</li>
+        </ul>
         <div class="buttons">
           <a class="btn small" href="https://github.com/apd915/Sat2Graph" target="_blank">GitHub</a>
         </div>
@@ -80,14 +84,15 @@
     </article>
 
     <article class="project" id="soft-robotics">
-      <div class="placeholder">Soft Robot Control</div>
+      <div class="placeholder">Soft Robotic Torso</div>
       <div>
-        <h3>Learning-Based Control for Soft Robots</h3>
-        <p class="lab">BYU Robotics &amp; Dynamics Lab</p>
-        <p class="meta">Sep 2026 – Present &nbsp;|&nbsp; Research Assistant, Soft Robotics Control</p>
-        <!-- TODO: check this description and add what you're working on specifically -->
-        <p>Building a MuJoCo simulation and Gym-style reinforcement learning environments for the lab's
-           Baloo robot, to train and evaluate controllers in simulation before moving to hardware.</p>
+        <h3>Zero-Shot Whole-Body Manipulation with a Large-Scale Soft Robotic Torso via Guided RL</h3>
+        <p class="lab">BYU Robotics &amp; Dynamics Lab · Advisor: Dr. Marc Killpack</p>
+        <p class="meta">Sep 2026 – Present &nbsp;|&nbsp; Co-author, manuscript in preparation</p>
+        <ul>
+          <li>Developed the evaluation methodology comparing an RL-based controller against PID and MPC</li>
+          <li>Tested and tuned the MPC controller and cost function in 1, 3, and 6 DOF scenarios</li>
+        </ul>
         <div class="buttons">
           <a class="btn small" href="https://github.com/apd915/baloo-mujoco-sim" target="_blank">GitHub: sim</a>
           <a class="btn small" href="https://github.com/apd915/baloo-gym" target="_blank">GitHub: gym</a>
@@ -99,61 +104,82 @@
   <section>
     <div class="section-head"><h2>Past Research</h2></div>
 
-    <article class="project" id="microfluidics">
-      <div class="placeholder">Microfluidics</div>
+    <article class="project" id="self-clearing-channels">
+      <a class="thumb-link" href="research/self-clearing-channels.html">
+        <img class="thumb" src="images/channels/channels.jpg" alt="3D-printed microfluidic channels clearing over time">
+      </a>
       <div>
-        <h3>Microfluidic Chip Design and Analysis</h3>
-        <p class="lab">BYU Ira A. Fulton College of Engineering</p>
-        <p class="meta">Feb 2024 – Jun 2025 &nbsp;|&nbsp; Undergraduate Researcher (project lead)</p>
-        <p>Led a research project from idea to reporting: structure, experiments, and write-up.</p>
+        <h3><a href="research/self-clearing-channels.html">Self-Clearing Channels in 3D-Printed Microfluidics</a></h3>
+        <p class="lab">BYU Electrical Engineering · Advisors: Dr. Greg Nordin &amp; Dr. Troy Munro</p>
+        <p class="meta">Feb 2024 – Jun 2025 &nbsp;|&nbsp; Project lead, BYU IMMERSE presentation (May 2024)</p>
+        <p>Studied how unpolymerized resin clears out of 3D-printed microfluidic channels on its own,
+           and how clearing time scales with channel geometry.</p>
         <ul>
-          <li>Automated measurement equations in scientific Python, cutting calculation time by 24×</li>
-          <li>Mentored two undergraduate researchers and cut data analysis time by 75%, freeing up more time for sample collection</li>
-          <li>Designed and analyzed microfluidic chips using CAD and specialized 3D printers, in collaboration with Mechanical Engineering</li>
+          <li>Built an electronic automation platform for device preparation, cutting prep time from 2 days to 4–6 hours and removing manual steps</li>
+          <li>Delivered microfluidic prints to Mechanical Engineering collaborators within 3 days of request for conference and journal work</li>
+          <li>Mentored two undergraduate researchers through weekly planning and accountability meetings</li>
         </ul>
+        <div class="buttons">
+          <a class="btn small primary" href="research/self-clearing-channels.html">Read more →</a>
+        </div>
       </div>
     </article>
   </section>
 
-  <section>
-    <div class="section-head"><h2>Projects</h2></div>
+  <section id="publications">
+    <div class="section-head"><h2>Publications</h2></div>
+    <ol class="pubs">
+      <li>
+        <strong>Alejandro Pelaez</strong>, Randal W. Beard.
+        <span class="title">“COAST: Safe Flight Corridor Planner for Fast and Robust Snap Minimized Trajectories.”</span>
+        <span class="venue">2027 American Control Conference (ACC).</span>
+        <span class="status">Submitted October 2026.</span>
+      </li>
+      <li>
+        <strong>Alejandro Pelaez</strong>, Dallon Gunn, Brady Moon.
+        <span class="title">“What Transfers to Road Topology? A Controlled Study of Foundation-Model Representations Across Architectures and Geographic Domains.”</span>
+        <span class="venue">IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing (J-STARS).</span>
+        <span class="status">Submitted November 2026.</span>
+      </li>
+      <li>
+        Curtis C. Johnson, Carlo Alessi, Egidio Falotico, <strong>Alejandro Pelaez</strong>, Cameron Collyer, Randon Sandall, Marc D. Killpack.
+        <span class="title">“Zero-shot Whole-Body Manipulation with a Large-Scale Soft Robotic Torso via Guided Reinforcement Learning.”</span>
+        <span class="status">Manuscript in preparation.</span>
+      </li>
+      <li>
+        Muhammad Taha, Caleb Fears, <strong>Alejandro Pelaez</strong>, Gregory Nordin, Adam Woolley, Troy Munro.
+        <span class="title">“3D Printed, Peltier Sensor for Measurements Within Small Scale Thermal Systems.”</span>
+        <span class="venue">International Thermal Conductivity Conference &amp; International Thermal Expansion Symposium (ITCC/ITES 2026).</span>
+        <span class="status">Accepted and presented by Muhammad Taha.</span>
+      </li>
+      <li>
+        Muhammad Taha, Mitchell Martin, Caleb Fears, Nathan Smith, <strong>Alejandro Pelaez</strong>, Adam Woolley, Gregory Nordin, Troy Munro.
+        <span class="title">“Development of Miniaturized Thermoelectric Element for Temperature Control in Microfluidic Systems.”</span>
+        <span class="status">Manuscript in preparation.</span>
+      </li>
+    </ol>
+  </section>
 
-    <article class="project" id="multi-agent-rl">
-      <div class="placeholder">Leader–Follower RL</div>
-      <div>
-        <h3>AI-Controlled Leader–Follower Cars</h3>
-        <p class="lab">Personal project</p>
-        <p class="meta">Multi-agent reinforcement learning</p>
-        <p>Trained follower vehicles with multi-agent reinforcement learning to track a leader car.
-           The repo includes code and training data.</p>
-        <div class="buttons">
-          <a class="btn small" href="https://github.com/apd915/Multi_Agent_RL" target="_blank">GitHub</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="project" id="quadcopter">
-      <div class="placeholder">Quadcopter</div>
-      <div>
-        <h3>Self-Leveling Quadcopter</h3>
-        <p class="lab">Personal project</p>
-        <p class="meta">Jan 2024 – Present &nbsp;|&nbsp; Arduino · PID control</p>
-        <p>Built a quadcopter from scratch that levels itself after pilot input, using a gyroscope and
-           accelerometer for attitude estimation and a radio transmitter/receiver for manual control.
-           I did all the assembly, soldering, and programming, and I'm still tuning the PID controllers.</p>
-      </div>
-    </article>
-
-    <article class="project" id="doorbell">
-      <div class="placeholder">Smart Doorbell</div>
-      <div>
-        <h3>Smart Doorbell</h3>
-        <p class="lab">Brigham Young University · Course project</p>
-        <p class="meta">Sep – Dec 2023 &nbsp;|&nbsp; Raspberry Pi · Embedded C</p>
-        <p>A Raspberry Pi doorbell that takes a photo when it's rung, shows it on a display, and uploads it
-           to an online server.</p>
-      </div>
-    </article>
+  <section id="presentations">
+    <div class="section-head"><h2>Presentations</h2></div>
+    <ol class="pubs">
+      <li>
+        <strong>Alejandro Pelaez</strong>, Randal W. Beard.
+        <span class="title">“COAST: Real-Time Autonomous Aerial Planner with Safety Guarantees for Fast and Robust Trajectories.”</span>
+        <span class="venue">Poster, 2026 SHPE National Convention, Indianapolis, October 2026.</span>
+        <span class="award">2nd Place, Undergraduate Poster Competition</span>
+      </li>
+      <li>
+        <strong>Alejandro Pelaez</strong>.
+        <span class="title">“Safe Flight Corridor Planner for Fast and Robust Snap Minimized Trajectories.”</span>
+        <span class="venue">Oral presentation, BYU IMMERSE, Provo, UT, August 2026.</span>
+      </li>
+      <li>
+        <strong>Alejandro Pelaez</strong>.
+        <span class="title">“Self-Clearing Channels.”</span>
+        <span class="venue">Oral presentation, BYU IMMERSE, Provo, UT, May 2024.</span>
+      </li>
+    </ol>
   </section>
 
 </main>
