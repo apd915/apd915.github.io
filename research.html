@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research · Alejandro Pelaez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="index.html">Alejandro <span>Pelaez</span></a>
+    <nav class="nav">
+      <a href="index.html">About</a>
+      <a href="research.html" class="active">Research</a>
+      <a href="blog.html">Blog</a>
+      <a href="files/CV.pdf" target="_blank">CV ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="page-head">
+    <h1>Research</h1>
+    <p>Planning, perception, and control for autonomous aerial and ground vehicles, with a focus on
+       learning-based methods. Code is linked where public.</p>
+  </div>
+
+  <!--
+    HOW TO ADD A PROJECT: copy one <article class="project"> ... </article> block,
+    paste it where you want it, and edit the text. For a picture, put the file in
+    images/ and replace the .placeholder div with:
+        <img class="thumb" src="images/your-photo.jpg" alt="Short description">
+    Delete any link button you don't have.
+  -->
+
+  <section style="border-top:0; padding-top:0">
+    <div class="section-head"><h2>Current Research</h2></div>
+
+    <article class="project" id="trajectory-planning">
+      <div class="placeholder">UAV Trajectory Planning</div>
+      <div>
+        <h3>Real-Time Trajectory Planning for Aerial Vehicles</h3>
+        <p class="lab">BYU MAGICC Lab</p>
+        <p class="meta">Feb 2026 – Present &nbsp;|&nbsp; Research Assistant, Autonomous Aerial Vehicles</p>
+        <p>Developing a ROS 2-compatible C++ library for real-time trajectory planning on multirotor and
+           fixed-wing aircraft. The planner is being tested and benchmarked in simulation, with the goal of
+           flight testing on hardware in real-world scenarios.</p>
+        <ul>
+          <li>Integrating the COAST real-time obstacle avoidance method into the ROSflight / ROScopter autopilot stack</li>
+          <li>Prototyped RRT-based planning with safe flight corridors (SFC) in the mavsim fixed-wing simulator and compared it against A*</li>
+          <!-- TODO: add a result once you have one (benchmarks, flight tests…) -->
+        </ul>
+        <div class="buttons">
+          <a class="btn small" href="https://github.com/apd915/COAST_roscopter" target="_blank">GitHub: ROScopter</a>
+          <a class="btn small" href="https://github.com/apd915/COAST_rosflight_ros_pkgs" target="_blank">GitHub: ROSflight pkgs</a>
+          <a class="btn small" href="https://github.com/apd915/rrt-astar_mavsim" target="_blank">GitHub: RRT/SFC</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" id="road-graphs">
+      <div class="placeholder">Satellite → Road Graph</div>
+      <div>
+        <h3>Road Graph Extraction from Satellite Imagery</h3>
+        <p class="lab">BYU FROST Lab</p>
+        <p class="meta">Aug 2025 – Present &nbsp;|&nbsp; Research Assistant, Robotics &amp; AI</p>
+        <p>Developing computer vision neural networks that turn satellite imagery into node graphs of the road
+           network, to be integrated into autonomous vehicle navigation. The work builds on Sat2Graph's
+           graph-tensor encoding.</p>
+        <div class="buttons">
+          <a class="btn small" href="https://github.com/apd915/Sat2Graph" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" id="soft-robotics">
+      <div class="placeholder">Soft Robot Control</div>
+      <div>
+        <h3>Learning-Based Control for Soft Robots</h3>
+        <p class="lab">BYU Robotics &amp; Dynamics Lab</p>
+        <p class="meta">Sep 2026 – Present &nbsp;|&nbsp; Research Assistant, Soft Robotics Control</p>
+        <!-- TODO: check this description and add what you're working on specifically -->
+        <p>Building a MuJoCo simulation and Gym-style reinforcement learning environments for the lab's
+           Baloo robot, to train and evaluate controllers in simulation before moving to hardware.</p>
+        <div class="buttons">
+          <a class="btn small" href="https://github.com/apd915/baloo-mujoco-sim" target="_blank">GitHub: sim</a>
+          <a class="btn small" href="https://github.com/apd915/baloo-gym" target="_blank">GitHub: gym</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Past Research</h2></div>
+
+    <article class="project" id="microfluidics">
+      <div class="placeholder">Microfluidics</div>
+      <div>
+        <h3>Microfluidic Chip Design and Analysis</h3>
+        <p class="lab">BYU Ira A. Fulton College of Engineering</p>
+        <p class="meta">Feb 2024 – Jun 2025 &nbsp;|&nbsp; Undergraduate Researcher (project lead)</p>
+        <p>Led a research project from idea to reporting: structure, experiments, and write-up.</p>
+        <ul>
+          <li>Automated measurement equations in scientific Python, cutting calculation time by 24×</li>
+          <li>Mentored two undergraduate researchers and cut data analysis time by 75%, freeing up more time for sample collection</li>
+          <li>Designed and analyzed microfluidic chips using CAD and specialized 3D printers, in collaboration with Mechanical Engineering</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Projects</h2></div>
+
+    <article class="project" id="multi-agent-rl">
+      <div class="placeholder">Leader–Follower RL</div>
+      <div>
+        <h3>AI-Controlled Leader–Follower Cars</h3>
+        <p class="lab">Personal project</p>
+        <p class="meta">Multi-agent reinforcement learning</p>
+        <p>Trained follower vehicles with multi-agent reinforcement learning to track a leader car.
+           The repo includes code and training data.</p>
+        <div class="buttons">
+          <a class="btn small" href="https://github.com/apd915/Multi_Agent_RL" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project" id="quadcopter">
+      <div class="placeholder">Quadcopter</div>
+      <div>
+        <h3>Self-Leveling Quadcopter</h3>
+        <p class="lab">Personal project</p>
+        <p class="meta">Jan 2024 – Present &nbsp;|&nbsp; Arduino · PID control</p>
+        <p>Built a quadcopter from scratch that levels itself after pilot input, using a gyroscope and
+           accelerometer for attitude estimation and a radio transmitter/receiver for manual control.
+           I did all the assembly, soldering, and programming, and I'm still tuning the PID controllers.</p>
+      </div>
+    </article>
+
+    <article class="project" id="doorbell">
+      <div class="placeholder">Smart Doorbell</div>
+      <div>
+        <h3>Smart Doorbell</h3>
+        <p class="lab">Brigham Young University · Course project</p>
+        <p class="meta">Sep – Dec 2023 &nbsp;|&nbsp; Raspberry Pi · Embedded C</p>
+        <p>A Raspberry Pi doorbell that takes a photo when it's rung, shows it on a display, and uploads it
+           to an online server.</p>
+      </div>
+    </article>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>© 2026 Alejandro Pelaez</span>
+    <span><a href="https://github.com/apd915">GitHub</a> · <a href="https://www.linkedin.com/in/alejandro-pelaez/">LinkedIn</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
