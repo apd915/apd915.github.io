@@ -238,6 +238,7 @@ h3 { font-size: 1.15rem; margin: 0 0 4px; letter-spacing: -0.01em; }
 .pubs .title { font-weight: 600; color: var(--text); }
 .pubs .venue { font-style: italic; color: var(--muted); }
 .pubs .status { font-size: 0.82rem; color: var(--muted); }
+.pubs .pub-links { margin-top: 8px; }
 .award {
   display: inline-block;
   font-size: 0.78rem;
