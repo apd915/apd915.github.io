@@ -126,17 +126,32 @@ void setSpeeds(uint8_t speed, uint8_t *leftSpeed, uint8_t *rightSpeed, uint8_t *
     </article>
 
     <article class="project" id="quadcopter">
-      <div class="placeholder">Self-Leveling Drone</div>
+      <img class="thumb" src="images/drone/ready-to-fly.jpg" alt="Quadcopter with red and white arms and an Arduino flight controller on grass next to a FlySky FS-i6 transmitter">
       <div>
         <h3>Self-Leveling Drone</h3>
         <p class="lab">Independent project</p>
         <p class="meta">C++ · Arduino · PID control</p>
         <p>A quadcopter that levels itself after pilot input, using a gyroscope/accelerometer for attitude
-           estimation and a radio transmitter/receiver for manual control.</p>
+           estimation and a FlySky radio transmitter/receiver for manual control.</p>
         <ul>
-          <li>Built, soldered, and tested the full stack: microcontroller → ESCs → brushless motors</li>
+          <li>Built, soldered, and tested the full stack: Arduino flight controller → ESCs → brushless motors</li>
           <li>Implemented PID control on gyroscope feedback to regulate motor speed and tilt</li>
         </ul>
+
+        <div class="steps">
+          <figure>
+            <img src="images/drone/frame.jpg" alt="Assembled quadcopter frame with four brushless motors and propellers">
+            <figcaption><b>Frame.</b> Quad frame, brushless motors, ESCs, and props assembled.</figcaption>
+          </figure>
+          <figure>
+            <img src="images/drone/electronics.jpg" alt="Arduino Uno wired on top of the quadcopter frame with a radio receiver">
+            <figcaption><b>Electronics.</b> Arduino flight controller, IMU, and FlySky receiver wired in.</figcaption>
+          </figure>
+          <figure>
+            <img src="images/drone/flight.jpg" alt="Alejandro flying the quadcopter over a grass field at dusk">
+            <figcaption><b>Flight testing.</b> Hovering under manual control while tuning the PID loops.</figcaption>
+          </figure>
+        </div>
       </div>
     </article>
 
