@@ -35,15 +35,20 @@
   </div>
 </header>
 
-<article class="article wide">
-  <a class="back" href="../research.html">← All research</a>
-  <p class="eyebrow">BYU FROST Lab · Aug 2025 – Present</p>
-  <h1>What Transfers to Road Topology?</h1>
-  <p class="lede">Vision foundation models are excellent at segmenting roads, but a road <em>map</em> also has to be
-     connected. This project asks which pretrained representations actually carry over to extracting road
-     networks as graphs from satellite imagery.</p>
-  <p class="muted">Alejandro Pelaez, Dallon Gunn, Brady Moon · First-author manuscript in preparation</p>
+<!-- Header band: texture is a still from the matching scene (images/bands/) -->
+<div class="hero-band article-band" style="--band-img:url(../images/bands/roads.jpg)">
+  <div class="article wide">
+    <a class="back" href="../research.html">← All research</a>
+    <p class="eyebrow">BYU FROST Lab · Aug 2025 – Present</p>
+    <h1>What Transfers to Road Topology?</h1>
+    <p class="lede">Vision foundation models are excellent at segmenting roads, but a road <em>map</em> also has to be
+       connected. This project asks which pretrained representations actually carry over to extracting road
+       networks as graphs from satellite imagery.</p>
+    <p class="muted">Alejandro Pelaez, Dallon Gunn, Brady Moon · First-author manuscript in preparation</p>
+  </div>
+</div>
 
+<article class="article wide">
   <figure>
     <img src="../images/roads/teaser.jpg" alt="Diagram comparing road graphs predicted by SAM, SAM 2.1, DINOv3 and C-RADIOv3, and SAM 2.1 ablations with decreasing APLS">
     <figcaption>The same satellite tile run through different foundation-model encoders (left), then through

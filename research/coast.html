@@ -36,25 +36,30 @@
   </div>
 </header>
 
-<article class="article wide">
-  <a class="back" href="../research.html">← All research</a>
-  <p class="eyebrow">BYU MAGICC Lab · Feb 2026 – Present</p>
-  <h1>COAST: Corridor-Optimized Aerially-Safe Trajectories</h1>
-  <p class="lede">A real-time path and trajectory planner for UAVs that keeps the obstacle-avoidance
-     guarantees of safe flight corridors while running fast enough to replan in flight.</p>
-  <p class="muted">Alejandro Pelaez &amp; Randal W. Beard · Submitted to the 2027 American Control Conference (ACC) ·
-     <span class="award">2nd Place, SHPE 2026 National Poster Competition</span></p>
+<!-- Header band: texture is a still from the matching scene (images/bands/) -->
+<div class="hero-band article-band" style="--band-img:url(../images/bands/coast.jpg)">
+  <div class="article wide">
+    <a class="back" href="../research.html">← All research</a>
+    <p class="eyebrow">BYU MAGICC Lab · Feb 2026 – Present</p>
+    <h1>COAST: Corridor-Optimized Aerially-Safe Trajectories</h1>
+    <p class="lede">A real-time path and trajectory planner for UAVs that keeps the obstacle-avoidance
+       guarantees of safe flight corridors while running fast enough to replan in flight.</p>
+    <p class="muted">Alejandro Pelaez &amp; Randal W. Beard · Submitted to the 2027 American Control Conference (ACC) ·
+       <span class="award">2nd Place, SHPE 2026 National Poster Competition</span></p>
 
-  <div class="buttons">
-    <a class="btn small primary" href="https://github.com/byu-magicc/Minimum-Snap-Trajectories" target="_blank">GitHub: core planner library ↗</a>
-    <a class="btn small" href="https://github.com/apd915/COAST_roscopter" target="_blank">GitHub: ROScopter integration</a>
-    <a class="btn small" href="https://github.com/apd915/COAST_rosflight_ros_pkgs" target="_blank">GitHub: ROSflight packages</a>
-    <a class="btn small" href="#videos">Watch videos ↓</a>
-    <a class="btn small" href="#poster">Poster ↓</a>
-    <a class="btn small" href="../files/coast-immerse-2026-slides.pdf" target="_blank">Slides (PDF) ↗</a>
-    <a class="btn small" href="https://ece.byu.edu/byu-ece-student-earns-second-place-at-national-shpe-poster-competition" target="_blank">BYU ECE news ↗</a>
+    <div class="buttons">
+      <a class="btn small primary" href="https://github.com/byu-magicc/Minimum-Snap-Trajectories" target="_blank">GitHub: core planner library ↗</a>
+      <a class="btn small" href="https://github.com/apd915/COAST_roscopter" target="_blank">GitHub: ROScopter integration</a>
+      <a class="btn small" href="https://github.com/apd915/COAST_rosflight_ros_pkgs" target="_blank">GitHub: ROSflight packages</a>
+      <a class="btn small" href="#videos">Watch videos ↓</a>
+      <a class="btn small" href="#poster">Poster ↓</a>
+      <a class="btn small" href="../files/coast-immerse-2026-slides.pdf" target="_blank">Slides (PDF) ↗</a>
+      <a class="btn small" href="https://ece.byu.edu/byu-ece-student-earns-second-place-at-national-shpe-poster-competition" target="_blank">BYU ECE news ↗</a>
+    </div>
   </div>
+</div>
 
+<article class="article wide">
   <figure>
     <img src="../images/coast/coast-rviz.jpg" alt="RViz view of a quadrotor in a forest of cylinders, with LiDAR returns in green, safe flight corridors in red and the planned trajectory in blue">
     <figcaption>COAST in a dense environment. LiDAR returns (green) are used to build dynamically sized safe flight

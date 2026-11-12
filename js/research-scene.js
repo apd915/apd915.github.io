@@ -367,7 +367,7 @@ function init({ renderer, scene, camera, C, part }) {
     renderer.render(scene, camera);
 
     // inset: what the downward camera sees (ground layer only: roads, fields, trees, segmentation)
-    if (wide && inset) {
+    if (wide && inset && !params.has('scene_noinset')) {
       const r = inset.getBoundingClientRect(), c = canvas.getBoundingClientRect();
       const x = r.left - c.left, y = c.bottom - r.bottom, w = r.width, h = r.height;
       downCam.position.set(D3.x, camY, D3.z);

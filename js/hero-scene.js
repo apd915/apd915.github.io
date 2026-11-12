@@ -96,6 +96,8 @@ function init({ renderer, scene, camera, C, part }) {
     scene.add(rock); rocks.push(rock);
   }
 
+  if (params.has('scene_bare')) { rv.group.visible = false; vtol.visible = false; }   // terrain only (used for page-band textures)
+
   // ---------- animation ----------
   let wide = true;
   const SPEED = 1.1, LOOP = 20;

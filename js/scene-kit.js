@@ -79,7 +79,7 @@ export function makePart(C) {
  * Drives the animation: pauses off-screen or in hidden tabs, shows one still frame for
  * reduced-motion users, and supports review URLs:
  *   ?scene_t=6                    one still frame at t = 6 s
- *   ?scene_t=0&scene_sheet=2,5,8  a contact sheet of several moments over the page
+ *   ?scene_t=0&scene_sheet=2,5,8  a contact sheet of several moments over the page (&scene_clean: no labels)
  */
 export function run({ canvas, renderer, camera, frame, onResize, stillT = 5, debug = {} }) {
   let raf = 0, visible = true, booted = false, lastT = stillT, t0 = performance.now(), paused = performance.now();
@@ -115,7 +115,7 @@ export function run({ canvas, renderer, camera, frame, onResize, stillT = 5, deb
           draw(tt);
           const x = (i % cols) * w / 2, y = Math.floor(i / cols) * h / 2;
           g.drawImage(canvas, x, y, w / 2, h / 2);
-          g.fillStyle = '#fff'; g.font = '20px sans-serif'; g.fillText('t=' + tt, x + 10, y + 26);
+          if (!params.has('scene_clean')) { g.fillStyle = '#fff'; g.font = '20px sans-serif'; g.fillText('t=' + tt, x + 10, y + 26); }
         });
         return out.toDataURL('image/jpeg', 0.88);
       } };
