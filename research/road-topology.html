@@ -76,18 +76,14 @@
   </figure>
 
   <h2>Findings</h2>
-  <div class="stats" style="padding:8px 0 8px">
+  <div class="stats stats-3" style="padding:8px 0 8px">
     <div class="stat"><div class="num">69.3</div><div class="what">APLS for SAM 2.1 on CityScale, the best of all six backbones (SAM: 65.8)</div></div>
     <div class="stat"><div class="num">+4.3</div><div class="what">Out-of-domain APLS gain for SAM 2.1 over SAM on unseen geographies</div></div>
     <div class="stat"><div class="num">≈1.8×</div><div class="what">Out-of-domain APLS of SAM 2.1 vs. the ResNet-50 baseline (40.4 vs. 22.4)</div></div>
-    <div class="stat"><div class="num">0</div><div class="what">Architectural add-ons that improved APLS</div></div>
   </div>
   <ol>
-    <li><strong>The backbone matters more than the architecture.</strong> Encoder choice moved graph connectivity far
-        more than any decoder modification. SAM 2.1 gave the highest APLS, mainly by recovering roads the other
-        encoders missed (higher recall).</li>
-    <li><strong>Extra decoder complexity didn't help.</strong> FPNs, attention, and their combination all
-        <em>lowered</em> APLS when added to SAM 2.1.</li>
+    <li><strong>The choice of backbone matters.</strong> SAM 2.1 gave the highest APLS, mainly by recovering
+        roads the other encoders missed (higher recall).</li>
     <li><strong>Foundation models generalize; supervised features don't.</strong> On unseen geographies the
         ResNet-50 baseline stays precise but its recall collapses, missing most of the network. Every
         foundation model held up far better.</li>
@@ -99,11 +95,6 @@
   <figure>
     <img src="../images/roads/qualitative.jpg" alt="Grid of ground-truth road masks and predictions from SAM 2.1, SAM, DINOv3 and C-RADIOv3 on three scenes">
     <figcaption>Qualitative comparison on CityScale. Circles mark places where an encoder bridges (cyan) or breaks (red) an occluded connection.</figcaption>
-  </figure>
-
-  <figure>
-    <img src="../images/roads/ablation.jpg" alt="SAM 2.1 predictions with and without CBAM and FPN augmentations">
-    <figcaption>Architectural augmentations applied to SAM 2.1. Added decoder complexity doesn't improve connectivity.</figcaption>
   </figure>
 
   <h2>My role</h2>

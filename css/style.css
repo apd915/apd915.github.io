@@ -222,6 +222,7 @@ h3 { font-size: 1.15rem; margin: 0 0 4px; letter-spacing: -0.01em; }
 .muted { color: var(--muted); }
 
 /* ---------- Stats strip ---------- */
+.stats.stats-3 { grid-template-columns: repeat(3, 1fr); }
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -415,7 +416,7 @@ table.results tbody tr:last-child td { border-bottom: 0; }
   .project { grid-template-columns: 1fr; gap: 14px; }
   .timeline li { grid-template-columns: 1fr; gap: 2px; }
   .project .thumb, .project .placeholder { max-height: 220px; }
-  .stats { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .stats, .stats.stats-3 { grid-template-columns: 1fr 1fr; gap: 20px; }
   .figs { grid-template-columns: 1fr; }
   .flow .arrow { display: none; }
   .flow .step { flex-basis: 100%; }
