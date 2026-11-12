@@ -96,7 +96,7 @@ function init({ renderer, scene, camera, C, part }, car) {
   // ---------- animation ----------
   const SPEED = 1.7, LOOP = LEN / SPEED;
   let wide = true;
-  const P = new THREE.Vector3(), T = new THREE.Vector3(), F = new THREE.Vector3(), camRight = new THREE.Vector3();
+  const P = new THREE.Vector3(), T = new THREE.Vector3(), F = new THREE.Vector3(), NDC = new THREE.Vector3(), camRight = new THREE.Vector3();
 
   function frame(t) {
     const u0 = ((t / LOOP) % 1 + 1) % 1;
@@ -134,8 +134,11 @@ function init({ renderer, scene, camera, C, part }, car) {
     camera.lookAt(lead.x - camRight.x * off, wide ? 0.6 : 0.8, lead.z - camRight.z * off);
     for (const { b, fade } of blocks) {
       const k = smooth(-4, -1, b.position.distanceTo(camera.position) - camera.position.distanceTo(lead));   // hide blocks in front of the lead car
-      for (const [m, o] of fade) m.opacity = o * k;
-      b.visible = k > 0.01;
+      // ...and, on wide layouts, blocks drifting behind the headline on the left
+      const kx = wide ? smooth(-0.25, 0.15, NDC.copy(b.position).project(camera).x) : 1;
+      const kk = Math.min(k, kx);
+      for (const [m, o] of fade) m.opacity = o * kk;
+      b.visible = kk > 0.01;
     }
     renderer.render(scene, camera);
   }
