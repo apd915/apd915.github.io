@@ -35,14 +35,27 @@
   </div>
 </header>
 
-<main class="container">
-
-  <div class="page-head">
-    <h1>Research</h1>
-    <p>Real-time planning, perception, and learning-based control for autonomous aerial and ground
-       systems. Click a project's image or title for a full write-up where available.
-       See also: <a href="#publications">Publications</a> · <a href="#presentations">Presentations</a></p>
+<!-- ===== HERO: COAST + road-topology scene (js/research-scene.js) ===== -->
+<div class="hero-band hero-band--research">
+  <canvas id="research-scene" class="scene" aria-hidden="true"></canvas>
+  <div class="scene-inset" aria-hidden="true"><span>Downward camera · road segmentation</span></div>
+  <div class="container hero">
+    <div>
+      <p class="eyebrow">Research</p>
+      <h1>Planning, perception &amp; control for autonomous vehicles</h1>
+      <p>Real-time planning, perception, and learning-based control for autonomous aerial and ground
+         systems. Click a project's image or title for a full write-up where available.
+         See also: <a href="#publications">Publications</a> · <a href="#presentations">Presentations</a></p>
+      <div class="scene-legend" aria-hidden="true">
+        <span><i class="k-traj"></i>Trajectory</span>
+        <span><i class="k-sfc"></i>Safe flight corridors</span>
+        <span><i class="k-seg"></i>Segmented roads &amp; graph</span>
+      </div>
+    </div>
   </div>
+</div>
+
+<main class="container">
 
   <!--
     HOW TO ADD A PROJECT: copy one <article class="project"> ... </article> block and edit it.
@@ -50,7 +63,7 @@
     To make it clickable, wrap the image in <a class="thumb-link" href="research/your-page.html">.
   -->
 
-  <section style="border-top:0; padding-top:0">
+  <section style="border-top:0">
     <div class="section-head"><h2>Current Research</h2></div>
 
     <article class="project" id="coast">
@@ -223,5 +236,7 @@
   </div>
 </footer>
 
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<script type="module" src="js/research-scene.js"></script>
 </body>
 </html>
