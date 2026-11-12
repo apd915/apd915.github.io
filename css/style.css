@@ -465,6 +465,7 @@ table.results tbody tr:last-child td { border-bottom: 0; }
   --scene-bright: #c9f5e2;
   --scene-seg: #f0b860;
   --scene-sfc: #8fa8ff;
+  --scene-wp: #ff8fa3;
   position: relative;
   overflow: hidden;
   color: var(--text);
@@ -542,6 +543,7 @@ canvas.scene.ready { opacity: 1; }
 .scene-legend i { display: inline-block; width: 18px; height: 0; vertical-align: middle; margin-right: 6px; border-top: 2px solid; }
 .scene-legend .k-sfc { height: 8px; border: 1px solid #8fa8ff; background: rgba(143,168,255,0.12); }
 .scene-legend .k-traj { border-color: #c9f5e2; }
+.scene-legend .k-wp { width: 9px; height: 9px; border: 1.5px solid #ff8fa3; transform: rotate(45deg); margin-right: 9px; }
 .scene-legend .k-seg { border-color: #f0b860; border-top-width: 4px; }
 .scene-caption { margin-top: 18px; font-size: 0.85rem; }
 

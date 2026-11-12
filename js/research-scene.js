@@ -7,7 +7,7 @@ const canvas = document.getElementById('research-scene');
 const inset = document.querySelector('.scene-inset');
 const stage = canvas && createStage(canvas, {
   fogNear: 16, fogFar: 62,
-  colors: { seg: '#f0b860', sfc: '#8fa8ff' },
+  colors: { seg: '#f0b860', sfc: '#8fa8ff', wp: '#ff8fa3' },
 });
 if (stage) init(stage);
 
@@ -148,14 +148,41 @@ function init({ renderer, scene, camera, C, part }) {
   // trajectory line (additive, so unplanned stretches are simply not drawn)
   const tGeo = new THREE.BufferGeometry().setFromPoints(tPts);
   tGeo.setAttribute('color', new THREE.Float32BufferAttribute(new Float32Array((NP + 1) * 3), 3));
-  const trajLine = new THREE.Line(tGeo, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, blending: THREE.AdditiveBlending }));
+  const trajLine = new THREE.Line(tGeo, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
   trajLine.layers.set(OVERLAY); scene.add(trajLine);
   // control points (a nod to the B-spline formulation), revealed with the trajectory
   const cpGeo = new THREE.OctahedronGeometry(0.07, 0);
   const cps = curve.getSpacedPoints(60).slice(0, 60).map((p, i) => {
-    const m = new THREE.LineSegments(new THREE.EdgesGeometry(cpGeo), lineMat(C.bright, 0)); m.position.copy(p); m.layers.set(OVERLAY); scene.add(m);
+    const m = new THREE.LineSegments(new THREE.EdgesGeometry(cpGeo), lineMat(C.bright, 0.55, { depthWrite: false })); m.position.copy(p); m.layers.set(OVERLAY); m.visible = false; scene.add(m);
     return { m, u: i / 60 };
   });
+
+  // ---------- global plan: strategic waypoints the local planner flies toward ----------
+  // intersection, start and end of the east lane, two points on the cross-field return, start of the loop
+  const WP_IDX = [1, 4, 7, 10, 12, 14];
+  const wpMat = (o, extra = {}) => lineMat(C.wp, o, { depthWrite: false, ...extra });
+  const beacons = WP_IDX.map((i) => {
+    const P = wps[i], gy = ground(P.x, P.z) + 0.06;
+    const g = new THREE.Group();
+    const ringA = new THREE.LineLoop(ring(1.0, 40), wpMat(0)); ringA.rotation.x = -Math.PI / 2; ringA.position.set(P.x, gy, P.z);
+    const ringB = new THREE.LineLoop(ring(0.45, 28), wpMat(0)); ringB.rotation.x = -Math.PI / 2; ringB.position.set(P.x, gy, P.z);
+    const pulse = new THREE.LineLoop(ring(1.0, 40), wpMat(0, { blending: THREE.AdditiveBlending })); pulse.rotation.x = -Math.PI / 2; pulse.position.set(P.x, gy, P.z);
+    const mastGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(P.x, gy, P.z), new THREE.Vector3(P.x, P.y - 0.3, P.z)]);
+    const mast = new THREE.Line(mastGeo, new THREE.LineDashedMaterial({ color: C.wp, dashSize: 0.18, gapSize: 0.14, transparent: true, opacity: 0, depthWrite: false }));
+    mast.computeLineDistances();
+    const gem = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.OctahedronGeometry(0.42, 0)), wpMat(0));
+    gem.position.copy(P); gem.scale.y = 1.4;
+    g.add(ringA, ringB, pulse, mast, gem);
+    g.traverse((o) => o.layers.set(OVERLAY));
+    scene.add(g);
+    return { i, u: uOf(P), ringA, ringB, pulse, mast, gem };
+  }).sort((a, b) => a.u - b.u);
+  const goalUs = beacons.map((b) => b.u);
+  // dashed straight lines between waypoints: the coarse global route the trajectory refines
+  const gl = beacons.map((b) => wps[b.i].clone());
+  const globalLine = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(gl),
+    new THREE.LineDashedMaterial({ color: C.wp, dashSize: 0.5, gapSize: 0.35, transparent: true, opacity: 0.5, depthWrite: false }));
+  globalLine.computeLineDistances(); globalLine.layers.set(OVERLAY); scene.add(globalLine);
 
   // ---------- trees (kept clear of roads and of the flight path) ----------
   const nearRoad = (x, z, d) => samples.some((s) => (s.x - x) ** 2 + (s.z - z) ** 2 < d * d);
@@ -235,6 +262,15 @@ function init({ renderer, scene, camera, C, part }) {
   // ---------- animation ----------
   const LOOP = Math.round(curve.getLength() / 2.4);
   const HORIZON = 0.13, REPLAN = 1.1, DRAW_IN = 0.5;   // planning horizon (fraction of loop), replan period (s), draw-in time (s)
+  const SWITCH = 0.03;                                 // switch to the next goal this far (fraction of loop) before reaching it
+  // next goal waypoint (unwrapped loop position) for a drone at progress x
+  function nextGoal(x) {
+    let best = Infinity;
+    for (let n = Math.floor(x) - 1; n <= Math.floor(x) + 1; n++) for (const g of goalUs) if (g + n > x + SWITCH && g + n < best) best = g + n;
+    return best;
+  }
+  // how far the local plan reaches after the replan at time tr
+  const horizonAt = (tr) => { const x = tr / LOOP; return Math.min(x + HORIZON, nextGoal(x)); };
   let wide = true;
   const D3 = new THREE.Vector3(), T3 = new THREE.Vector3(), T2 = new THREE.Vector3(), fwd = new THREE.Vector3(), right = new THREE.Vector3();
   const segColor = C.seg, black = new THREE.Color(0, 0, 0);
@@ -310,20 +346,25 @@ function init({ renderer, scene, camera, C, part }) {
     }
     for (const n of nodes) n.m.material.opacity = level(n.k) > 0.02 ? Math.min(1, level(n.k) * 1.6) : 0;
 
-    // ---- receding planning horizon ----
-    // Every REPLAN seconds the planner extends its horizon to HORIZON (fraction of the loop) ahead of
-    // the drone. New corridors grow in from their entry face; the new stretch of trajectory draws in.
+    // ---- receding planning horizon toward the active waypoint ----
+    // Every REPLAN seconds the local planner extends its horizon up to HORIZON ahead of the drone, but never
+    // past the current goal waypoint. Shortly before a waypoint is reached, the goal switches to the next
+    // one. New corridors grow in from their entry face; the new stretch of trajectory draws in.
     const p = t / LOOP;                                   // unwrapped progress (laps)
     const tr = Math.floor(t / REPLAN) * REPLAN;           // last replan instant
-    const hPrev = (tr - REPLAN) / LOOP + HORIZON, hNow = tr / LOOP + HORIZON;
+    const hPrev = horizonAt(tr - REPLAN), hNow = horizonAt(tr);
     const hEnd = hPrev + (hNow - hPrev) * ease((t - tr) / DRAW_IN);   // trajectory drawn up to here
 
     for (const c of sfc) {
       // the instance of this corridor (this lap or the next) that hasn't been left behind yet
       const k = Math.ceil(p - c.u1 - 0.02);
       const S = c.u0 + k, E = c.u1 + k;
-      const tAppear = Math.ceil(((S - HORIZON) * LOOP) / REPLAN) * REPLAN;
-      const age = t - tAppear;
+      // first replan whose horizon reached into this corridor
+      let age = -1;
+      if (hNow > S + 0.002) {
+        let kk = 0; while (kk < 60 && horizonAt(tr - REPLAN * (kk + 1)) > S + 0.002) kk++;
+        age = t - (tr - REPLAN * kk);
+      }
       const grow = age < 0 ? 0 : ease(age / 0.6);
       const leave = 1 - ease((p - E) * LOOP / 1.2);          // fade out after the drone exits
       const inside = p >= S && p <= E;
@@ -342,14 +383,29 @@ function init({ renderer, scene, camera, C, part }) {
       let q = i / NP + Math.floor(p); if (q < p - 0.5) q += 1; else if (q > p + 0.5) q -= 1;
       const ahead = q - p;
       let l = 0;
-      if (ahead >= 0 && q <= hEnd) l = 1 - 0.55 * (ahead / HORIZON);           // planned, brightest near the drone
-      else if (ahead < 0) l = Math.max(0, 0.45 * (1 + ahead / 0.05));           // short flown trail
+      if (ahead >= 0 && q <= hEnd) l = 1 - 0.55 * Math.min(1, ahead / HORIZON);   // planned, brightest near the drone
       tmpC.setRGB(0, 0, 0).lerp(C.bright, l); tc.setXYZ(i, tmpC.r, tmpC.g, tmpC.b);
     }
     tc.needsUpdate = true;
     for (const c of cps) {
       let q = c.u + Math.floor(p); if (q < p - 0.5) q += 1; else if (q > p + 0.5) q -= 1;
-      c.m.material.opacity = q >= p && q <= hEnd ? 0.55 : 0;
+      c.m.visible = q >= p && q <= hEnd;
+    }
+
+    // waypoint beacons: the active goal spins and pulses; a reached waypoint flashes, then dims
+    const goal = nextGoal(p);
+    for (const b of beacons) {
+      let q = b.u + Math.floor(p); if (q < p - 0.5) q += 1; else if (q > p + 0.5) q -= 1;
+      const active = Math.abs(q - goal) < 1e-6 || Math.abs(q + 1 - goal) < 1e-6;
+      const since = (p - q) * LOOP;                        // seconds since the drone passed it (if > 0)
+      const flash = since > 0 && since < 2.2 ? 1 - since / 2.2 : 0;
+      const base = active ? 1 : 0.55 + 0.45 * flash;
+      b.ringA.material.opacity = base * 0.9; b.ringB.material.opacity = base * 0.6;
+      b.mast.material.opacity = base * 0.75; b.gem.material.opacity = base;
+      b.gem.rotation.y = active ? t * 2.2 : 0;
+      const ph = active ? (t / 1.3) % 1 : (flash > 0 ? 1 - flash : 1);
+      b.pulse.scale.setScalar(1 + ph * 2.2);
+      b.pulse.material.opacity = (active || flash > 0) ? (1 - ph) * 0.9 : 0;
     }
 
     // main camera: slow orbit around the drone, offset so the drone sits right of the headline
@@ -384,5 +440,5 @@ function init({ renderer, scene, camera, C, part }) {
 
   run({ canvas, renderer, camera, frame, stillT: 9,
     onResize: (w, h) => { wide = w / h > 1.25; camera.fov = wide ? 32 : 44; },
-    debug: { drone, curve, sfc, LOOP } });
+    debug: { drone, curve, sfc, LOOP, beacons } });
 }
