@@ -45,6 +45,10 @@
        entirely in simulation and transferred to hardware with no fine-tuning.</p>
     <p class="muted">Curtis C. Johnson, Carlo Alessi, Egidio Falotico, <strong>Alejandro Pelaez</strong>, Cameron Collyer,
        Randon Sandall, Marc D. Killpack · Manuscript in preparation</p>
+    <div class="buttons">
+      <a class="btn small" href="https://github.com/apd915/baloo-mujoco-sim" target="_blank">GitHub: sim</a>
+      <a class="btn small" href="https://github.com/apd915/baloo-gym" target="_blank">GitHub: gym</a>
+    </div>
   </div>
 </div>
 
@@ -54,57 +58,24 @@
     <figcaption>Guided reward shaping, parallelized training in MuJoCo, then zero-shot transfer to the real robot.</figcaption>
   </figure>
 
-  <h2>The problem</h2>
-  <p>Whole-body manipulation, using arms and torso rather than just a gripper, lets a robot handle large, heavy,
-     or awkward objects. Soft robots suit this well because their compliance makes contact forgiving, but the
-     same softness makes their kinematics and dynamics hard to simulate and control.</p>
-
-  <h2>The lab's results so far</h2>
-  <p class="muted">The results below are from the original paper by Johnson, Alessi, Falotico, and Killpack, before I joined.
-     I'm contributing to the revised version now in preparation.</p>
-  <ul>
-    <li><strong>Fast soft-robot simulation:</strong> each continuum arm is modeled as a chain of rigid disks
-        joined by universal joints, running up to <strong>350× real time</strong> on a single thread in MuJoCo</li>
-    <li><strong>Guided RL:</strong> shaping the reward with a simple grasping motion primitive was critical.
-        Standard reward shaping failed to produce a stable policy</li>
-    <li><strong>Zero-shot sim-to-real:</strong> <strong>88% success</strong> (22 of 25 hardware trials) lifting five
-        boxes up to ~10 kg, close to the 94% seen in simulation</li>
-    <li><strong>Emergent behavior:</strong> the learned policy re-grasps after the box is knocked away. It doesn't
-        just replay the primitive</li>
-  </ul>
+  <h2>About the project</h2>
+  <p>Soft robots are well suited to whole-body manipulation because their compliance makes contact forgiving,
+     but that same softness makes them hard to model and control. The lab's original work, by Johnson, Alessi,
+     Falotico, and Killpack, trained a reinforcement-learning policy entirely in a fast MuJoCo simulation, guided by
+     a simple grasping motion primitive, and transferred it straight to hardware: <strong>88% success</strong>
+     lifting boxes of up to ~10 kg with no fine-tuning.</p>
 
   <figure>
     <img src="../images/torso/lifting-boxes.jpg" alt="The robot lifting five different cardboard boxes">
     <figcaption>Hardware trials across five boxes of different sizes and masses.</figcaption>
   </figure>
 
-  <figure>
-    <img src="../images/torso/regrasp.jpg" alt="Eight frames: a lifted box is knocked away and pushed, and the robot re-approaches and re-grasps it">
-    <figcaption>Emergent re-grasping. After the box is knocked out of its grasp (frames 2–5), the policy re-approaches and lifts it again (6–8).</figcaption>
-  </figure>
-
   <h2>My role <span class="award" style="vertical-align:middle">In progress</span></h2>
-  <p>I joined the project in September 2026 for the revised paper. My work so far:</p>
+  <p>I joined in September 2026 to contribute to the revised paper:</p>
   <ul>
-    <li>Developing the evaluation methodology for comparing the RL policy against classical PID and MPC baselines</li>
+    <li>Developing the evaluation methodology for comparing the RL policy against PID and MPC baselines</li>
     <li>Testing and tuning the MPC controller and its cost function in 1, 3, and 6 DOF scenarios</li>
   </ul>
-  <p class="muted">Results from the baseline comparison aren't final yet. I'll add them here when they are.</p>
-
-  <div class="figs">
-    <figure>
-      <img src="../images/torso/continuum-joint.png" alt="Semi-transparent render of the rigid-disk approximation of a soft continuum arm">
-      <figcaption>The rigid-disk model of a continuum joint used in simulation.</figcaption>
-    </figure>
-    <div>
-      <h3 style="margin-top:8px">Code</h3>
-      <p class="muted">My simulation and Gym environment work for the robot:</p>
-      <div class="buttons" style="margin-top:10px">
-        <a class="btn small" href="https://github.com/apd915/baloo-mujoco-sim" target="_blank">GitHub: sim</a>
-        <a class="btn small" href="https://github.com/apd915/baloo-gym" target="_blank">GitHub: gym</a>
-      </div>
-    </div>
-  </div>
 
   <p class="muted" style="font-size:0.85rem">Figures courtesy of the paper's authors, BYU Robotics &amp; Dynamics Lab.</p>
   <p style="margin-top:28px"><a href="../research.html">← Back to all research</a></p>
