@@ -32,3 +32,9 @@ git push
 ```
 
 GitHub Pages serves https://apd915.github.io about a minute after each push.
+
+## Footer date
+
+Every page footer says "Last updated <Month Year>". When you change the site, update it everywhere at once, e.g.:
+
+    sed -i "s/Last updated November 2026/Last updated December 2026/" *.html research/*.html projects/*.html

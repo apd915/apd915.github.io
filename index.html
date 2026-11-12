@@ -53,8 +53,9 @@
       </p>
       <p>
         My research sits where <strong>learning-based methods</strong> meet the
-        <strong>perception, planning, and control</strong> of autonomous vehicles. I'm applying to graduate
-        programs in robotics to continue that work.
+        <strong>perception, planning, and control</strong> of autonomous vehicles. I'm applying to PhD
+        programs in <strong>robotics, aerospace, and controls</strong> to continue that work
+        (<a href="#grad-goals">what I want to work on</a>).
       </p>
 
       <div class="buttons">
@@ -88,6 +89,39 @@
     <div class="stat"><div class="num">2nd</div><div class="what">National, SHPE 2026 undergraduate research poster</div></div>
     <div class="stat"><div class="num">3</div><div class="what">Research labs: MAGICC, FROST, RaD</div></div>
   </div>
+
+  <!-- ===== GRAD SCHOOL GOALS ===== -->
+  <section id="grad-goals" style="border-top:0; padding-top:0">
+    <div class="section-head"><h2>What I Want to Work on in Grad School</h2></div>
+    <p class="goals-lede">
+      I want to build autonomous vehicles that are <strong>rugged enough</strong> to survive hard terrain and
+      environments and <strong>adaptable enough</strong> to handle situations they weren't designed for. My approach
+      is to pair <strong>classical planning and control</strong>, which give guarantees and predictable
+      behavior, with <strong>learning-based methods</strong>, which adapt to what a model can't anticipate.
+      My undergraduate work spans both sides: an optimization-based planner with formal safety guarantees,
+      learned perception from foundation models, and reinforcement learning measured against classical
+      controllers.
+    </p>
+    <div class="goals">
+      <div class="goal">
+        <h3>Planning and target tracking for VTOL aircraft</h3>
+        <p>VTOL aircraft take off like a multirotor and cruise like a fixed-wing, but fast trajectory planners
+           have mostly ignored them. Building on <a href="research/coast.html">COAST</a>, which shares one
+           architecture across both aircraft types, I want a planner that switches with the VTOL's flight mode,
+           then use it to follow a moving target seen by a camera, including predicting where the target went
+           when an obstacle hides it. One use: a drone that delivers packages from a moving truck and returns
+           to it.</p>
+      </div>
+      <div class="goal">
+        <h3>Rugged, adaptive ground robots for field robotics</h3>
+        <p>I'm interested in ground vehicles that keep working on unstructured terrain and in changing
+           environments, and adjust to scenarios they've never seen. Classical planners and controllers give
+           them a reliable, verifiable foundation; learned models can cover terrain and dynamics too complex to
+           model by hand. I want to study how to combine the two so a robot gains adaptability without losing
+           its guarantees.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== SELECTED WORK ===== -->
   <section>
@@ -140,6 +174,10 @@
       <span class="tag">Computer Vision</span>
       <span class="tag">Foundation Models</span>
       <span class="tag">Multi-Agent Systems</span>
+      <span class="tag">VTOL &amp; Fixed-Wing Aircraft</span>
+      <span class="tag">Target Tracking</span>
+      <span class="tag">Field Robotics</span>
+      <span class="tag">Ground Vehicles</span>
     </div>
   </section>
 
@@ -224,7 +262,7 @@
 
 <footer class="site-footer">
   <div class="container">
-    <span>© 2026 Alejandro Pelaez</span>
+    <span>© 2026 Alejandro Pelaez · Last updated November 2026</span>
     <span><a href="https://github.com/apd915">GitHub</a> · <a href="https://www.linkedin.com/in/alejandro-pelaez/">LinkedIn</a></span>
   </div>
 </footer>
