@@ -53,7 +53,7 @@
       </p>
       <p>
         My research sits where <strong>learning-based methods</strong> meet the
-        <strong>perception, planning, and control</strong> of autonomous vehicles. I'm applying to PhD
+        <strong>perception, planning, and control</strong> of autonomous <strong>aerial and ground vehicles</strong>. I'm applying to PhD
         programs in <strong>robotics, aerospace, and controls</strong> to continue that work
         (<a href="#grad-goals">what I want to work on</a>).
       </p>
@@ -92,35 +92,43 @@
 
   <!-- ===== GRAD SCHOOL GOALS ===== -->
   <section id="grad-goals" style="border-top:0; padding-top:0">
-    <div class="section-head"><h2>What I Want to Work on in Grad School</h2></div>
+    <div class="section-head"><h2>Grad School Focus: Autonomous Aerial &amp; Ground Vehicles</h2></div>
     <p class="goals-lede">
-      I want to build autonomous vehicles that are <strong>rugged enough</strong> to survive hard terrain and
-      environments and <strong>adaptable enough</strong> to handle situations they weren't designed for. My approach
-      is to pair <strong>classical planning and control</strong>, which give guarantees and predictable
-      behavior, with <strong>learning-based methods</strong>, which adapt to what a model can't anticipate.
-      My undergraduate work spans both sides: an optimization-based planner with formal safety guarantees,
-      learned perception from foundation models, and reinforcement learning measured against classical
-      controllers.
+      In grad school I want to make <strong>aerial and ground vehicles</strong> autonomous in the field:
+      <strong>rugged enough</strong> for hard terrain and environments, and <strong>adaptable enough</strong>
+      for situations they weren't designed for. Both kinds of vehicle need the same thing: <strong>classical
+      planning and control</strong> for guarantees and predictable behavior, combined with
+      <strong>learning-based methods</strong> that adapt to what a model can't anticipate. My undergraduate
+      work spans both sides: an optimization-based UAV planner with formal safety guarantees, learned
+      perception from foundation models, and reinforcement learning measured against classical controllers.
     </p>
     <div class="goals">
       <div class="goal">
+        <p class="kicker">Aerial vehicles</p>
         <h3>Planning and target tracking for VTOL aircraft</h3>
-        <p>VTOL aircraft take off like a multirotor and cruise like a fixed-wing, but fast trajectory planners
-           have mostly ignored them. Building on <a href="research/coast.html">COAST</a>, which shares one
-           architecture across both aircraft types, I want a planner that switches with the VTOL's flight mode,
-           then use it to follow a moving target seen by a camera, including predicting where the target went
-           when an obstacle hides it. One use: a drone that delivers packages from a moving truck and returns
-           to it.</p>
+        <p>VTOL aircraft take off like a multirotor and cruise like a fixed-wing, combining hover with long
+           range, yet fast trajectory planners have mostly ignored them. Building on
+           <a href="research/coast.html">COAST</a>, which shares one architecture across both aircraft types,
+           I want a planner that switches with the VTOL's flight mode, then use it to follow a moving target
+           seen by a camera, including predicting where the target went when an obstacle hides it.</p>
+        <p class="applies"><span class="label">Where it applies:</span> package delivery from a moving truck,
+           disaster response, firefighting, search and rescue.</p>
       </div>
       <div class="goal">
+        <p class="kicker">Ground vehicles</p>
         <h3>Rugged, adaptive ground robots for field robotics</h3>
-        <p>I'm interested in ground vehicles that keep working on unstructured terrain and in changing
-           environments, and adjust to scenarios they've never seen. Classical planners and controllers give
-           them a reliable, verifiable foundation; learned models can cover terrain and dynamics too complex to
-           model by hand. I want to study how to combine the two so a robot gains adaptability without losing
-           its guarantees.</p>
+        <p>I want ground vehicles that keep working on unstructured terrain and in changing environments, and
+           adjust to scenarios they've never seen. Classical planners and controllers give them a reliable,
+           verifiable foundation; learned models can cover terrain and dynamics too complex to model by hand.
+           I want to study how to combine the two so a vehicle gains adaptability without losing its
+           guarantees.</p>
+        <p class="applies"><span class="label">Where it applies:</span> search and rescue, off-road and
+           exploration missions, disaster sites, agriculture.</p>
       </div>
     </div>
+    <p class="goals-tail muted">The two also work together: an aircraft can map roads and terrain from above for a
+       ground robot to plan through, which is what my <a href="research/road-topology.html">road-topology
+       research</a> is motivated by.</p>
   </section>
 
   <!-- ===== SELECTED WORK ===== -->
