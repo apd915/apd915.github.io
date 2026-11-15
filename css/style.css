@@ -238,6 +238,8 @@ h3 { font-size: 1.15rem; margin: 0 0 4px; letter-spacing: -0.01em; }
 .pubs li { margin-bottom: 14px; padding-left: 4px; }
 .pubs .title { font-weight: 600; color: var(--text); }
 .pubs .venue { font-style: italic; color: var(--muted); }
+/* the site owner's name in author lists: accent colour on a soft highlight so it stands out in both themes */
+.pubs strong { color: var(--accent); background: var(--accent-soft); padding: 1px 4px; margin: 0 -3px 0 -1px; border-radius: 4px; white-space: nowrap; }
 .pubs .status { font-size: 0.82rem; color: var(--muted); }
 .pubs .pub-links { margin-top: 8px; }
 .award {
