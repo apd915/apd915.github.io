@@ -144,6 +144,7 @@ function init({ renderer, scene, camera, C, part }, car) {
   }
 
   run({ canvas, renderer, camera, frame, stillT: 6,
-    onResize: (w, h) => { wide = w / h > 1.25; camera.fov = wide ? 32 : 44; },
+    onResize: (w, h) => { wide = w > 760 && w / h > 1.25;   // phones (narrow strip under the text) use the centred framing
+      camera.fov = wide ? 32 : 44; },
     debug: { fleet } });
 }

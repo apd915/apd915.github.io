@@ -181,7 +181,7 @@ function init({ renderer, scene, camera, C, part }) {
   // dashed straight lines between waypoints: the coarse global route the trajectory refines
   const gl = beacons.map((b) => wps[b.i].clone());
   const globalLine = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(gl),
-    new THREE.LineDashedMaterial({ color: C.wp, dashSize: 0.5, gapSize: 0.35, transparent: true, opacity: 0.5, depthWrite: false }));
+    new THREE.LineDashedMaterial({ color: C.wp, dashSize: 0.5, gapSize: 0.35, transparent: true, opacity: 0.3, depthWrite: false }));
   globalLine.computeLineDistances(); globalLine.layers.set(OVERLAY); scene.add(globalLine);
 
   // ---------- trees (kept clear of roads and of the flight path) ----------
@@ -439,6 +439,7 @@ function init({ renderer, scene, camera, C, part }) {
   }
 
   run({ canvas, renderer, camera, frame, stillT: 9,
-    onResize: (w, h) => { wide = w / h > 1.25; camera.fov = wide ? 32 : 44; },
+    onResize: (w, h) => { wide = w > 760 && w / h > 1.25;   // phones (narrow strip under the text) use the centred framing
+      camera.fov = wide ? 32 : 44; },
     debug: { drone, curve, sfc, LOOP, beacons } });
 }

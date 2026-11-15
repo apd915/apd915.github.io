@@ -175,7 +175,8 @@ function init({ renderer, scene, camera, C, part }) {
   }
 
   run({ canvas, renderer, camera, frame, stillT: 5.5,
-    onResize: (w, h) => { wide = w / h > 1.25; camera.fov = wide ? 30 : 42; },
+    onResize: (w, h) => { wide = w > 760 && w / h > 1.25;   // phones (narrow strip under the text) use the centred framing
+      camera.fov = wide ? 30 : 42; },
     debug: { rover: rv.group, vtol, CAM } });
 }
 
