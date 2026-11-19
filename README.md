@@ -12,7 +12,7 @@ My portfolio site. It's plain HTML and CSS with no build step: edit a file, push
 | `projects.html` | Independent and course projects |
 | `css/style.css` | All styling. Change `--accent` at the top to change the color |
 | `images/` | Headshot and figures (`images/coast/`, `images/channels/`) |
-| `files/CV.pdf` | CV (all "CV" links point here; replace the file to update it) |
+| `files/CV.pdf` | CV (all "CV" links point here; replace the file to update it, then bump the `?v=` date in every CV link so browsers fetch the new copy) |
 
 ## Adding a project
 
