@@ -148,6 +148,13 @@ a:hover { text-decoration: underline; }
 .icon-links a { color: var(--muted); }
 .icon-links a:hover { color: var(--text); }
 .icon-links svg { width: 22px; height: 22px; fill: currentColor; }
+/* Google Scholar mark: the cap tips on hover (and turns Scholar blue in the hero) */
+.icon-links a.scholar:hover, .icon-links a.scholar:focus-visible { color: #4285f4; }
+.scholar svg { overflow: visible; }
+.scholar .cap { transform-origin: 12px 11px; transition: transform 0.25s ease; }
+.scholar:hover .cap, .scholar:focus-visible .cap { transform: translateY(-2.5px) rotate(-14deg); }
+.scholar-link { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { .scholar .cap { transition: none; } }
 
 /* ---------- Sections ---------- */
 section { padding: 48px 0; border-top: 1px solid var(--border); }
